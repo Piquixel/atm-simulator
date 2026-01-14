@@ -7,4 +7,5 @@ export const routes: Routes = [
   { path: '', loadComponent: () => Home },
   { path: 'atm', loadComponent: () => Atm },
   { path: 'card-list', loadComponent: () => CardList },
+  { path: '**', redirectTo: '' },
 ];

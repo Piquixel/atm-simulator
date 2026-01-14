@@ -1,10 +1,10 @@
 <mat-toolbar>
-  <span>{{ title() }}</span>
+  <span routerLink="">{{ title() }}</span>
   <span class="example-spacer"></span>
-  <button matIconButton>
+  <button matIconButton routerLink="card-list">
     <mat-icon>credit_card</mat-icon>
   </button>
-  <button matIconButton>
+  <button matIconButton routerLink="atm">
     <mat-icon>money</mat-icon>
   </button>
 </mat-toolbar>
