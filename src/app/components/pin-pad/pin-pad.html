@@ -1,1 +1,10 @@
-<p>pin-pad works!</p>
+<div class="password">
+  <p>{{pin}}</p>
+</div>
+<mat-grid-list cols="3" rowHeight="50px" gutterSize="12px">
+  @for (t of tiles; track t) {
+  <mat-grid-tile>
+    <button mat-raised-button (click)="handleClick(t)">{{ t }}</button>
+  </mat-grid-tile>
+  }
+</mat-grid-list>

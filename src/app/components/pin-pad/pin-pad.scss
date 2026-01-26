@@ -1,0 +1,11 @@
+:host {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .password {
+    text-align: center;
+    font-size: larger;
+    min-height: 60px;
+  }
+}
