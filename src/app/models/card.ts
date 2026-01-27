@@ -3,10 +3,22 @@ import { CardType } from './enums/card-type.enum';
 
 export class Card {
   constructor(
-    private readonly cardNumber: string,
-    private readonly type: CardType,
-    private readonly bank: BankType,
-    private pin: string,
-    private balance: number,
+    private readonly _cardNumber: string,
+    private readonly _type: CardType,
+    private readonly _bank: BankType,
+    private _pin: string,
+    private _balance: number,
   ) {}
+
+  public get cardNumber(): string {
+    return this._cardNumber;
+  }
+
+  public get type(): CardType {
+    return this._type;
+  }
+
+  public get bank(): BankType {
+    return this._bank;
+  }
 }

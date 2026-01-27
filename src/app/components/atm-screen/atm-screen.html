@@ -1,1 +1,14 @@
-<app-pin-pad></app-pin-pad>
+@switch (currentStep) {
+  @case (AtmStep.LANDING) {
+    <app-atm-landing (onNext)="changeStep(AtmStep.CARD_SELECTION)"></app-atm-landing>
+  }
+  @case (AtmStep.CARD_SELECTION) {
+    <app-atm-card-selection></app-atm-card-selection>
+  }
+  @case (AtmStep.PIN_PAD) {
+    <app-pin-pad></app-pin-pad>
+  }
+  @case (AtmStep.ACTIONS_MENU) {
+    <app-atm-actions-menu></app-atm-actions-menu>
+  }
+}

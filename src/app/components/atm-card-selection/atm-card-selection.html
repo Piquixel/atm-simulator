@@ -1,0 +1,12 @@
+<h3>Merci de sélectionnez votre carte</h3>
+
+@for (customer of customers; track customer.fullname) {
+  <p>{{customer.fullname}}</p>
+  @for(card of customer.cards; track card.cardNumber) {
+    <div>
+      <p>{{card.cardNumber}}</p>
+      <p>{{card.bank}}</p>
+      <p>{{card.type}}</p>
+    </div>
+  }
+}

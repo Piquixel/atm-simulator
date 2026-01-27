@@ -1,0 +1,6 @@
+export enum AtmStep {
+  LANDING = 'LANDING',
+  CARD_SELECTION = 'CARD_SELECTION',
+  PIN_PAD = 'PIN_PAD',
+  ACTIONS_MENU = 'ACTIONS_MENU',
+}
