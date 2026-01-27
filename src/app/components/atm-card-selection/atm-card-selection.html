@@ -1,12 +1,18 @@
-<h3>Merci de sélectionnez votre carte</h3>
-
+<h2>Merci de sélectionnez votre carte</h2>
 @for (customer of customers; track customer.fullname) {
-  <p>{{customer.fullname}}</p>
-  @for(card of customer.cards; track card.cardNumber) {
-    <div>
-      <p>{{card.cardNumber}}</p>
-      <p>{{card.bank}}</p>
-      <p>{{card.type}}</p>
-    </div>
-  }
+<h3>{{customer.fullname}}</h3>
+@for(card of customer.cards; track card.cardNumber) {
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{card.bank}}</mat-card-title>
+    <mat-card-subtitle>{{card.type}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{card.cardNumber}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button matButton>Choisir</button>
+  </mat-card-actions>
+</mat-card>
+}
 }
