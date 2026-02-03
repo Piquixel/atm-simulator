@@ -11,7 +11,7 @@
     <p>{{card.cardNumber}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button matButton>Choisir</button>
+    <button matButton (click)="chooseCard(card)">Choisir</button>
   </mat-card-actions>
 </mat-card>
 }

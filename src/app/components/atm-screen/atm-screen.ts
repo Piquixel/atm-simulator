@@ -4,6 +4,7 @@ import { AtmActionsMenu } from '../atm-actions-menu/atm-actions-menu';
 import { AtmCardSelection } from '../atm-card-selection/atm-card-selection';
 import { AtmLanding } from '../atm-landing/atm-landing';
 import { AtmStep } from '../../models/enums/atm-step.enum';
+import { Card } from '../../models/card';
 
 @Component({
   selector: 'app-atm-screen',
@@ -13,9 +14,16 @@ import { AtmStep } from '../../models/enums/atm-step.enum';
 })
 export class AtmScreen {
   public readonly AtmStep = AtmStep;
+
   public currentStep = AtmStep.LANDING;
+  public selectedCard?: Card;
 
   public changeStep(step: AtmStep): void {
     this.currentStep = step;
+  }
+
+  public handleSelectCard(card: Card) {
+    this.selectedCard = card;
+    this.changeStep(AtmStep.PIN_PAD);
   }
 }

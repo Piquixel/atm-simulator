@@ -3,7 +3,7 @@
     <app-atm-landing (onNext)="changeStep(AtmStep.CARD_SELECTION)"></app-atm-landing>
   }
   @case (AtmStep.CARD_SELECTION) {
-    <app-atm-card-selection></app-atm-card-selection>
+    <app-atm-card-selection (onChooseCard)="handleSelectCard($event)"></app-atm-card-selection>
   }
   @case (AtmStep.PIN_PAD) {
     <app-pin-pad></app-pin-pad>
