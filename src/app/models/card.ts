@@ -21,4 +21,12 @@ export class Card {
   public get bank(): BankType {
     return this._bank;
   }
+
+  public get balance(): number {
+    return this._balance;
+  }
+
+  public checkPin(pin: string): boolean {
+    return this._pin === pin;
+  }
 }

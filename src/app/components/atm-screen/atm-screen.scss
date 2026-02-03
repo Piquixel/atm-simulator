@@ -4,4 +4,9 @@
   border-radius: 1rem;
   display: block;
   padding: 3rem;
+
+  .error-msg {
+    color: var(--mat-sys-error);
+    text-align: center;
+  }
 }

@@ -1,1 +1,27 @@
-<p>atm-actions-menu works!</p>
+<mat-accordion multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon color="primary">euro</mat-icon>
+        Solde
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <h3>{{ currentCard().balance | currency: 'EUR' }}</h3>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>arrow_downward</mat-icon>
+        Retrait
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>arrow_upward</mat-icon>
+        Dépot
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</mat-accordion>

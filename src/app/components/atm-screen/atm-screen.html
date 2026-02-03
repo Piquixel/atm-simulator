@@ -6,9 +6,14 @@
     <app-atm-card-selection (onChooseCard)="handleSelectCard($event)"></app-atm-card-selection>
   }
   @case (AtmStep.PIN_PAD) {
-    <app-pin-pad></app-pin-pad>
+    <app-pin-pad (validatePin)="handlePin($event)"></app-pin-pad>
+    @if (erroMessage) {
+      <p class="error-msg">{{erroMessage}}</p>
+    }
   }
   @case (AtmStep.ACTIONS_MENU) {
-    <app-atm-actions-menu></app-atm-actions-menu>
+    @if(selectedCard) {
+      <app-atm-actions-menu [currentCard]="selectedCard"></app-atm-actions-menu>
+    }
   }
 }
