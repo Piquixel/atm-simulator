@@ -29,4 +29,12 @@ export class Card {
   public checkPin(pin: string): boolean {
     return this._pin === pin;
   }
+
+  public deposit(amount: number): void {
+    if (amount > 0) {
+      this._balance += amount;
+    } else {
+      throw new Error('Le montant doit être positif pour faire un dépot');
+    }
+  }
 }

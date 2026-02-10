@@ -15,6 +15,19 @@
         Retrait
       </mat-panel-title>
     </mat-expansion-panel-header>
+    <mat-form-field appearance="outline">
+      <mat-label>Montant du retrait</mat-label>
+      <input matInput [formControl]="withdrawal" type="number" step="5" placeholder="50">
+      <button matIconButton matSuffix [disabled]="withdrawal.invalid">
+        <mat-icon>check</mat-icon>
+      </button>
+      @if(withdrawal.hasError('min')){
+      <mat-error>Attention le montant minimum est de <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error>
+      } @else if(withdrawal.hasError('required')) {
+      <mat-error>Un montant est <strong>requis</strong> pour continuer.</mat-error>
+      }
+    </mat-form-field>
+
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -23,5 +36,17 @@
         Dépot
       </mat-panel-title>
     </mat-expansion-panel-header>
+    <mat-form-field appearance="outline">
+      <mat-label>Montant du dépôt</mat-label>
+      <input matInput [formControl]="deposit" type="number" step="5" placeholder="50">
+      <button matIconButton matSuffix [disabled]="deposit.invalid" (click)="handleDeposit()">
+        <mat-icon>check</mat-icon>
+      </button>
+      @if(deposit.hasError('min')){
+      <mat-error>Attention le montant minimum est de <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error>
+      } @else if(deposit.hasError('required')) {
+      <mat-error>Un montant est <strong>requis</strong> pour continuer.</mat-error>
+      }
+    </mat-form-field>
   </mat-expansion-panel>
 </mat-accordion>
