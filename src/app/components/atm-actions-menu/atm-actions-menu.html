@@ -18,13 +18,18 @@
     <mat-form-field appearance="outline">
       <mat-label>Montant du retrait</mat-label>
       <input matInput [formControl]="withdrawal" type="number" step="5" placeholder="50">
-      <button matIconButton matSuffix [disabled]="withdrawal.invalid">
+      <button matIconButton matSuffix [disabled]="withdrawal.invalid" (click)="handleWithdrawl()">
         <mat-icon>check</mat-icon>
       </button>
       @if(withdrawal.hasError('min')){
       <mat-error>Attention le montant minimum est de <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error>
       } @else if(withdrawal.hasError('required')) {
       <mat-error>Un montant est <strong>requis</strong> pour continuer.</mat-error>
+      } @else if(withdrawal.hasError('max')) {
+      <mat-error>Attention le montant maximum est de <strong>{{ currentCard().balance| currency: 'EUR'
+          }}</strong></mat-error>
+      } @else if(withdrawal.hasError('isMultiple')) {
+      <mat-error>Attention le montant doit être un multiple de <strong>{{ 5| currency: 'EUR' }}</strong></mat-error>
       }
     </mat-form-field>
 
@@ -46,6 +51,8 @@
       <mat-error>Attention le montant minimum est de <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error>
       } @else if(deposit.hasError('required')) {
       <mat-error>Un montant est <strong>requis</strong> pour continuer.</mat-error>
+      } @else if(deposit.hasError('isMultiple')) {
+      <mat-error>Attention le montant doit être un multiple de <strong>{{ 5| currency: 'EUR' }}</strong></mat-error>
       }
     </mat-form-field>
   </mat-expansion-panel>

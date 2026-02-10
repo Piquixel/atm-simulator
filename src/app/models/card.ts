@@ -37,4 +37,12 @@ export class Card {
       throw new Error('Le montant doit être positif pour faire un dépot');
     }
   }
+
+  public withdrawal(amount: number): void {
+    if (amount > 0 && amount <= this.balance) {
+      this._balance -= amount;
+    } else {
+      throw new Error('Le montant doit être positif et supérieur pour faire un retrait');
+    }
+  }
 }
