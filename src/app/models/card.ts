@@ -34,7 +34,7 @@ export class Card {
     if (amount > 0) {
       this._balance += amount;
     } else {
-      throw new Error('Le montant doit être positif pour faire un dépot');
+      throw new Error('Le montant doit être positif pour faire un dépôt');
     }
   }
 

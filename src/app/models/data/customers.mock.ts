@@ -9,7 +9,7 @@ const customer1 = new Customer(
   'John',
   'Doe',
   Gender.MALE,
-  'Rue des paquerettes 32, 4000 Liège',
+  'Rue des pâquerettes 32, 4000 Liège',
   [
     new Card('1234-5678-9872-1562', CardType.MASTERCARD, BankType.BELFIUS, '1234', 1000),
     new Card('3324-1231-0992-3212', CardType.VISA, BankType.ING, '5678', 1000),

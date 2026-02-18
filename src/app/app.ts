@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss',
 })
 export class App {
-  public readonly appName = "My super ATM App !"
+  public readonly appName: string = "Simulateur ATM"
 }

@@ -3,12 +3,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 
 @Component({
-  selector: 'app-pin-pad',
+  selector: 'app-pad',
   imports: [MatGridList, MatButtonModule, MatGridTile],
-  templateUrl: './pin-pad.html',
-  styleUrl: './pin-pad.scss',
+  templateUrl: './pad.html',
+  styleUrl: './pad.scss',
 })
-export class PinPad {
+export class Pad {
   public readonly validatePin = output<string>();
   public readonly tiles = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'X', '0', 'V'];
   public pin = '';

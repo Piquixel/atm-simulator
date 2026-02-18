@@ -1,0 +1,32 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports.ts": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.ts": "explicit"
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.css": "${capture}.css.map, ${capture}.min.css",
+    "*.js": "${capture}.js.map, ${capture}.test.js, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.sass": "${capture}.css",
+    "*.scss": "${capture}.css",
+    "*.ts": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "main.sass": "_*.sass",
+    "main.scss": "_*.scss",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock, angular.*, .prettier*, .eslint.*, eslint.*, .editorconfig",
+    "tsconfig.json": "tsconfig.*.json"
+  },
+  "prettier.configPath": ".prettierrc.json",
+  "prettier.documentSelectors": ["**/*.{html,scss,json}"],
+  "workbench.colorCustomizations": {
+    "[Vira*]": {
+      "tab.activeBorder": "#ff669e5c",
+      "tab.activeModifiedBorder": "#ff669e"
+    }
+  }
+}

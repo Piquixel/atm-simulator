@@ -1,0 +1,22 @@
+@switch (currentStep) {
+  @case (AtmStep.LANDING) {
+    <app-atm-landing (whenNext)="changeStep(AtmStep.CARD_SELECTION)"></app-atm-landing>
+  }
+  @case (AtmStep.CARD_SELECTION) {
+    <app-atm-card-selection (whenChooseCard)="handleSelectCard($event)"></app-atm-card-selection>
+  }
+  @case (AtmStep.PIN_PAD) {
+    <app-pad (validatePin)="handlePin($event)"></app-pad>
+    @if (erroMessage) {
+      <p class="error-msg">{{ erroMessage }}</p>
+    }
+  }
+  @case (AtmStep.ACTIONS_MENU) {
+    @if (selectedCard) {
+      <app-atm-action-menu
+        (whenQuit)="changeStep(AtmStep.LANDING)"
+        [currentCard]="selectedCard"
+      ></app-atm-action-menu>
+    }
+  }
+}

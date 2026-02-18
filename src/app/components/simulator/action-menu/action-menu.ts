@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,7 +13,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Card } from '../../models/card';
+import { Card } from '../../../models/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 export function isMultiple(num: number): ValidatorFn {
@@ -24,7 +24,7 @@ export function isMultiple(num: number): ValidatorFn {
 }
 
 @Component({
-  selector: 'app-atm-actions-menu',
+  selector: 'app-atm-action-menu',
   imports: [
     MatButtonModule,
     MatExpansionModule,
@@ -33,11 +33,11 @@ export function isMultiple(num: number): ValidatorFn {
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-  ],
-  templateUrl: './atm-actions-menu.html',
-  styleUrl: './atm-actions-menu.scss',
+],
+  templateUrl: './action-menu.html',
+  styleUrl: './action-menu.scss',
 })
-export class AtmActionsMenu {
+export class AtmActionMenu {
   private readonly _snackBar = inject(MatSnackBar);
   public readonly currentCard = input.required<Card>();
 
@@ -65,7 +65,7 @@ export class AtmActionsMenu {
     this.currentCard().deposit(this.deposit.value!);
     this.deposit.reset();
 
-    this._snackBar.open('Le dépot est bien validé !', '', {
+    this._snackBar.open('Le dépôt est bien validé !', '', {
       verticalPosition: 'top',
       duration: 2000,
     });
@@ -92,5 +92,11 @@ export class AtmActionsMenu {
 
     this.withdrawal.addValidators(this.withdrawalMaxValidationRef);
     this.withdrawal.updateValueAndValidity();
+  }
+
+  public whenQuit = output<void>();
+
+  public quitScreen(): void {
+    this.whenQuit.emit();
   }
 }

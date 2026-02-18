@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AtmScreen } from '../../components/atm-screen/atm-screen';
+import { AtmComponent } from '@components/simulator/container/container';
 
 @Component({
   selector: 'app-atm',
-  imports: [AtmScreen],
+  imports: [AtmComponent],
   templateUrl: './atm.html',
   styleUrl: './atm.scss',
 })

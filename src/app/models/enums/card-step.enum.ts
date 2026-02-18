@@ -1,0 +1,4 @@
+export enum CardStep {
+  LANDING = 'LANDING',
+  CUSTOMER_ADDITION = 'CUSTOMER_ADDITION'
+}

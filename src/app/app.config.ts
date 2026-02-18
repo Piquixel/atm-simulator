@@ -1,16 +1,12 @@
-import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import localeFr from '@angular/common/locales/fr';
-
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter, TitleStrategy } from '@angular/router';
+import { AppTitleStrategy } from './app-title.strategy';
 import { routes } from './app.routes';
-import { registerLocaleData } from '@angular/common';
-
-registerLocaleData(localeFr, 'fr-BE');
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    { provide: LOCALE_ID, useValue: 'fr-BE' },
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
   ],
 };
