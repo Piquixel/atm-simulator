@@ -1,5 +1,14 @@
 @switch (currentStep) {
   @case (cardStep.LANDING) {
-    <app-cards-landing></app-cards-landing>
+    <app-cards-landing
+      [customersList]="customers"
+      (whenNext)="changeStep(cardStep.CUSTOMER_ADDITION)"
+    ></app-cards-landing>
+  }
+  @case (cardStep.CUSTOMER_ADDITION) {
+    <app-customer-form
+      [customersList]="customers"
+      (whenCreate)="changeStep(cardStep.LANDING)"
+    ></app-customer-form>
   }
 }

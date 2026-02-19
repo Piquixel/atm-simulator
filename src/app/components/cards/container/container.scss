@@ -1,0 +1,12 @@
+:host {
+  margin: 3rem 12rem;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--mat-sys-corner-large);
+  display: block;
+  padding: 3rem;
+
+  .error-msg {
+    color: var(--mat-sys-error);
+    text-align: center;
+  }
+}

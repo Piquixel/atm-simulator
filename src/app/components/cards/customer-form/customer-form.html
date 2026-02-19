@@ -1,1 +1,57 @@
-<p>customer-form works!</p>
+<h2>Enregistrer un Nouveau Client</h2>
+
+<form [formGroup]="customerForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Date de Naissance</mat-label>
+    <input matInput type="date" formControlName="birthDate" />
+    @if (customerForm.controls.birthDate.hasError('required')) {
+      <mat-error>Une date de naissance est <b>requise</b></mat-error>
+    }
+  </mat-form-field>
+  <table cellSpacing="0">
+    <tr>
+      <td>
+        <mat-form-field appearance="outline">
+          <mat-label>Prénom</mat-label>
+          <input matInput type="text" formControlName="firstName" />
+          @if (customerForm.controls.birthDate.hasError('required')) {
+            <mat-error>Un prénom est <b>requise</b></mat-error>
+          }
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field appearance="outline">
+          <mat-label>Nom de Famille</mat-label>
+          <input matInput type="text" formControlName="lastName" />
+          @if (customerForm.controls.birthDate.hasError('required')) {
+            <mat-error>Un nom de famille est <b>requise</b></mat-error>
+          }
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    <mat-radio-group formControlName="gender">
+      <mat-radio-button [value]="gender.FEMALE">Femme</mat-radio-button>
+      <mat-radio-button [value]="gender.MALE">Homme</mat-radio-button>
+      <mat-radio-button [value]="gender.OTHER">Autre</mat-radio-button> </mat-radio-group
+    ><br />
+    <mat-form-field appearance="outline">
+      <mat-label>Adresse</mat-label>
+      <input matInput type="text" name="" id="" formControlName="address" />
+      @if (customerForm.controls.birthDate.hasError('required')) {
+        <mat-error>Une adresse est <b>requise</b></mat-error>
+      }
+    </mat-form-field>
+  </p>
+  <button
+    matButton="filled"
+    type="submit"
+    (click)="createCustomer()"
+    [disabled]="customerForm.invalid"
+  >
+    Créer
+  </button>
+  <button matButton type="reset">Annuler</button>
+</form>
