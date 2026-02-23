@@ -1,4 +1,24 @@
 @if (customersList().length === 0) {
   <h3>Aucun client trouvé</h3>
-  <button matButton="filled" (click)="nextStep()">Enregistrer un nouveau client</button>
+  <button matButton="filled" (click)="goToCustomerForm()">Enregistrer un nouveau client</button>
+} @else {
+  <h2>Clients</h2>
+  @for (customer of customersList(); track customer) {
+    <h3>{{ customer.fullname }}</h3>
+    @for (card of customer.cards; track card) {
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ card.type }}</mat-card-title>
+          <mat-card-subtitle>{{ card.bank }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>{{ card.cardNumber }}</mat-card-content>
+        <mat-card-actions>
+          <button matButton>Paramètres de la Carte</button>
+        </mat-card-actions>
+      </mat-card>
+    }
+    <button matButton (click)="goToCardForm(customer)">Ajouter une carte</button>
+  }
+  <br />
+  <button matButton="filled" (click)="goToCustomerForm()">Enregistrer un nouveau client</button>
 }

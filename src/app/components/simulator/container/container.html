@@ -3,7 +3,10 @@
     <app-atm-landing (whenNext)="changeStep(AtmStep.CARD_SELECTION)"></app-atm-landing>
   }
   @case (AtmStep.CARD_SELECTION) {
-    <app-atm-card-selection (whenChooseCard)="handleSelectCard($event)"></app-atm-card-selection>
+    <app-atm-card-selection
+      [customers]="customers"
+      (whenChooseCard)="handleSelectCard($event)"
+    ></app-atm-card-selection>
   }
   @case (AtmStep.PIN_PAD) {
     <app-pad (validatePin)="handlePin($event)"></app-pad>
@@ -15,6 +18,7 @@
     @if (selectedCard) {
       <app-atm-action-menu
         (whenQuit)="changeStep(AtmStep.LANDING)"
+        [currentCustomer]="currentCustomer!"
         [currentCard]="selectedCard"
       ></app-atm-action-menu>
     }

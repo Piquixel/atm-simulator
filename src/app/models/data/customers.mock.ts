@@ -5,6 +5,7 @@ import { CardType } from '../enums/card-type.enum';
 import { Gender } from '../enums/gender.enum';
 
 const customer1 = new Customer(
+  'b7932848-92cf-4203-91e7-d8682334f5da',
   new Date('01-01-1990'),
   'John',
   'Doe',
@@ -17,6 +18,7 @@ const customer1 = new Customer(
 );
 
 const customer2 = new Customer(
+  '71854057-1bec-43a3-bf64-85d4178acb1e',
   new Date('01-01-2004'),
   'Lucie',
   'Smith',

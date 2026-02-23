@@ -1,18 +1,20 @@
 import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
-import { ICustomer } from '@models/index.js';
+import { MatCardModule } from '@angular/material/card';
+import { Customer } from '@models/customer';
 
 @Component({
   selector: 'app-cards-landing',
-  imports: [ MatButtonModule],
+  imports: [ MatButtonModule, MatCardModule],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })
 export class CardsLanding {
-  public customersList = input<ICustomer[]>([])
-  public whenNext = output<void>();
+  public customersList = input<Customer[]>([])
+  public toCustomerAdd = output();
+  public toCardAdd = output<Customer>()
 
-  public nextStep(): void {
-    this.whenNext.emit()
-  }
+  public goToCustomerForm = (): void => this.toCustomerAdd.emit();
+
+  public goToCardForm = (customer: Customer) => this.toCardAdd.emit(customer)
 }

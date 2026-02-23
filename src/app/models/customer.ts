@@ -3,6 +3,7 @@ import { Gender } from './enums/gender.enum';
 
 export class Customer {
   constructor(
+    private readonly _uuid: string,
     private readonly _birthdate: Date,
     private _firstname: string,
     private _lastname: string,
@@ -15,7 +16,15 @@ export class Customer {
     return `${this._lastname.toUpperCase()} ${this._firstname}`;
   }
 
+  public get uuid(): string {
+    return this._uuid
+  }
+
   public get cards(): Card[] {
     return this._cards;
+  }
+
+  public set cards(card: Card) {
+    this._cards.push(card)
   }
 }

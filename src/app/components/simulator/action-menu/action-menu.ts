@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Card } from '../../../models/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Customer } from '@models/customer.js';
+import { ICustomer } from '@models/index'
 
 export function isMultiple(num: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -40,6 +42,7 @@ export function isMultiple(num: number): ValidatorFn {
 export class AtmActionMenu {
   private readonly _snackBar = inject(MatSnackBar);
   public readonly currentCard = input.required<Card>();
+  public readonly currentCustomer = input.required<Customer>();
 
   public readonly withdrawal = new FormControl(null, [
     Validators.required,
@@ -64,6 +67,23 @@ export class AtmActionMenu {
   public handleDeposit(): void {
     this.currentCard().deposit(this.deposit.value!);
     this.deposit.reset();
+    const cardIndex = this.currentCustomer().cards.findIndex(card => card.cardNumber === this.currentCard().cardNumber)
+
+    const localCustomers: ICustomer[] = JSON.parse(localStorage['customers'])
+
+    const storedCustomer = localCustomers.find(customer => customer.uuid === this.currentCustomer().uuid)
+
+    console.log(storedCustomer)
+
+    if (!storedCustomer) return
+
+    const targetIndex = localCustomers.indexOf(storedCustomer)
+
+    storedCustomer.cards[cardIndex].balance = this.currentCard().balance
+
+    localCustomers[targetIndex] = storedCustomer
+
+    localStorage['customers'] = JSON.stringify(localCustomers)
 
     this._snackBar.open('Le dépôt est bien validé !', '', {
       verticalPosition: 'top',

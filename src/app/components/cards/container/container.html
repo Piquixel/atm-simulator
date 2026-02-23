@@ -2,13 +2,21 @@
   @case (cardStep.LANDING) {
     <app-cards-landing
       [customersList]="customers"
-      (whenNext)="changeStep(cardStep.CUSTOMER_ADDITION)"
+      (toCustomerAdd)="changeStep(cardStep.CUSTOMER_ADDITION)"
+      (toCardAdd)="changeStep(cardStep.CARD_ADDITION, $event)"
     ></app-cards-landing>
   }
   @case (cardStep.CUSTOMER_ADDITION) {
     <app-customer-form
-      [customersList]="customers"
-      (whenCreate)="changeStep(cardStep.LANDING)"
+      [customersList]="storedCustomers"
+      (toLanding)="changeStep(cardStep.LANDING)"
     ></app-customer-form>
+  }
+  @case (cardStep.CARD_ADDITION) {
+    <app-card-form
+      [currentCustomer]="currentCustomer!"
+      [customerList]="storedCustomers"
+      (toLanding)="changeStep(cardStep.LANDING)"
+    ></app-card-form>
   }
 }

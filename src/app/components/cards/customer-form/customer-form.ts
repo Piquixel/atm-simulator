@@ -5,7 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { Gender } from '@models/enums/gender.enum.js';
-import { ICustomer } from '@models/index.js';
+import { ICustomer } from '@models/index';
+import { v4 as uuidv4 } from 'uuid'
 
 @Component({
   selector: 'app-customer-form',
@@ -24,20 +25,25 @@ export class CustomerForm {
     address: new FormControl('',[Validators.required])
   })
 
-  public whenCreate = output()
+  public toLanding = output()
 
 
   public createCustomer() {
     const newCustomer: ICustomer = {
+      uuid: uuidv4(),
       birthDate: this.customerForm.controls.birthDate.value!,
       firstName: this.customerForm.controls.firstName.value!,
       lastName: this.customerForm.controls.lastName.value!,
       gender: this.customerForm.controls.gender.value!,
       address: this.customerForm.controls.address.value!,
       cards: []
-    }
+    };
+
     this.customersList().push(newCustomer)
-    localStorage['customers'] = this.customersList()
-    this.whenCreate.emit()
+
+    localStorage['customers'] = JSON.stringify(this.customersList())
+    this.toLanding.emit()
   }
+
+  public returnToLanding = (): void => this.toLanding.emit()
 }
