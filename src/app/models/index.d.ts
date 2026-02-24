@@ -3,21 +3,21 @@ import { CardType } from './enums/card-type.enum.js';
 import { Gender } from './enums/gender.enum.js';
 
 export interface ICustomer {
-  uuid: string
-  birthDate: Date
-  firstName: string
-  lastName: string
-  gender: Gender
-  address: string
-  cards: ICard[]
+  _uuid: string
+  _birthdate: Date
+  _firstname: string
+  _lastname: string
+  _gender: Gender
+  _address: string
+  _cards: ICard[]
 }
 
 export interface ICard {
-  cardNumber: string
-  cardType: CardType
-  bankType: BankType
-  cardPin: string,
-  balance: number
+  _cardNumber: string
+  _type: CardType
+  _bank: BankType
+  _pin: string,
+  _balance: number
 }
 
 export interface IOptionsModel {

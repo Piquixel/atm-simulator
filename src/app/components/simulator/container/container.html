@@ -4,7 +4,7 @@
   }
   @case (AtmStep.CARD_SELECTION) {
     <app-atm-card-selection
-      [customers]="customers"
+      [customers]="customers()"
       (whenChooseCard)="handleSelectCard($event)"
     ></app-atm-card-selection>
   }

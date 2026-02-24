@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Pad } from '../pad/pad';
 import { AtmActionMenu } from '../action-menu/action-menu';
 import { AtmCardSelection } from '../card-selection/card-selection';
@@ -6,7 +6,7 @@ import { AtmLanding } from '../landing/landing';
 import { AtmStep } from '@models/enums/atm-step.enum';
 import { Card } from '@models/card';
 import { Customer } from '@models/customer.js';
-import { ICustomer } from '@models/index.js';
+import { CustomerService } from '../../../customer.service.js';
 
 @Component({
   selector: 'app-atm-container',
@@ -21,12 +21,9 @@ export class AtmComponent {
   public selectedCard?: Card;
   public erroMessage?: string;
 
-  public readonly storedCustomers: ICustomer[] = JSON.parse(localStorage['customers'] || '[]')
+  private customerService = inject(CustomerService)
 
-  public customers = this.storedCustomers.map(c => {
-      const cards = c.cards.map(card => new Card(card.cardNumber, card.cardType, card.bankType, card.cardPin, card.balance))
-      return new Customer(c.uuid,c.birthDate, c.firstName, c.lastName, c.gender, c.address, cards)
-  })
+  public customers = this.customerService.customers
 
   public currentCustomer?: Customer
 
@@ -36,7 +33,7 @@ export class AtmComponent {
 
   public handleSelectCard(card: Card) {
     this.selectedCard = card;
-    this.currentCustomer = this.customers.find(cus => cus.cards.find(c => c.cardNumber === card.cardNumber))
+    this.currentCustomer = this.customers().find(cus => cus.cards.find(c => c.cardNumber === card.cardNumber))
     this.changeStep(AtmStep.PIN_PAD);
   }
 

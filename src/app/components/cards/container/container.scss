@@ -1,9 +1,10 @@
 :host {
-  margin: 3rem 12rem;
-  border: 1px solid var(--mat-sys-outline);
+  border: 1px solid var(--mat-sys-outline-variant);
   border-radius: var(--mat-sys-corner-large);
+  background-color: var(--mat-sys-surface-container-low);
   display: block;
-  padding: 3rem;
+  padding: 2rem 3.33rem;
+  box-shadow: var(--mat-sys-level3);
 
   .error-msg {
     color: var(--mat-sys-error);

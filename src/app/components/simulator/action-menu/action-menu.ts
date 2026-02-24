@@ -71,7 +71,7 @@ export class AtmActionMenu {
 
     const localCustomers: ICustomer[] = JSON.parse(localStorage['customers'])
 
-    const storedCustomer = localCustomers.find(customer => customer.uuid === this.currentCustomer().uuid)
+    const storedCustomer = localCustomers.find(customer => customer._uuid === this.currentCustomer().uuid)
 
     console.log(storedCustomer)
 
@@ -79,7 +79,7 @@ export class AtmActionMenu {
 
     const targetIndex = localCustomers.indexOf(storedCustomer)
 
-    storedCustomer.cards[cardIndex].balance = this.currentCard().balance
+    storedCustomer._cards[cardIndex]._balance = this.currentCard().balance
 
     localCustomers[targetIndex] = storedCustomer
 

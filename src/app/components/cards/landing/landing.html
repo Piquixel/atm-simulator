@@ -1,24 +1,44 @@
 @if (customersList().length === 0) {
-  <h3>Aucun client trouvé</h3>
+  <h3>Aucun client enregistré</h3>
   <button matButton="filled" (click)="goToCustomerForm()">Enregistrer un nouveau client</button>
 } @else {
   <h2>Clients</h2>
   @for (customer of customersList(); track customer) {
-    <h3>{{ customer.fullname }}</h3>
-    @for (card of customer.cards; track card) {
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ card.type }}</mat-card-title>
-          <mat-card-subtitle>{{ card.bank }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>{{ card.cardNumber }}</mat-card-content>
-        <mat-card-actions>
-          <button matButton>Paramètres de la Carte</button>
-        </mat-card-actions>
-      </mat-card>
-    }
-    <button matButton (click)="goToCardForm(customer)">Ajouter une carte</button>
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ customer.fullname }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (customer.cards.length === 0) {
+          <p matListItemLine>Aucune carte enregistrée</p>
+        } @else {
+          <mat-list>
+            @for (card of customer.cards; track card) {
+              <mat-divider></mat-divider>
+              <br />
+              <mat-list-item>
+                <mat-card>
+                  <mat-card-header>
+                    <mat-card-title>{{ card.type }}</mat-card-title>
+                    <mat-card-subtitle>{{ card.bank }}</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>{{ card.cardNumber }}</mat-card-content>
+                  <mat-card-actions>
+                    <button matButton disabled>Changer le code PIN</button>
+                    <button matButton disabled>Supprimer la Carte</button>
+                  </mat-card-actions>
+                </mat-card>
+              </mat-list-item>
+            }
+          </mat-list>
+        }
+      </mat-card-content>
+      <mat-card-actions>
+        <button matButton="filled" (click)="goToCardForm(customer)">Ajouter une carte</button>
+        <button matButton="text" disabled>Supprimer le client</button>
+      </mat-card-actions>
+    </mat-card>
   }
-  <br />
+
   <button matButton="filled" (click)="goToCustomerForm()">Enregistrer un nouveau client</button>
 }

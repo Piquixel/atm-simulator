@@ -4,11 +4,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from "@angular/material/input";
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from "@angular/material/button";
-import { CardType } from '@models/enums/card-type.enum.js';
-import { ICard, ICustomer, IOptionsModel } from '@models/index.js';
-import { BankType } from '@models/enums/bank-type.enum.js';
-import { Card } from '@models/card.js';
-import { Customer } from '@models/customer.js';
+import { CardType } from '@models/enums/card-type.enum';
+import { IOptionsModel } from '@models/index';
+import { BankType } from '@models/enums/bank-type.enum';
+import { Card } from '@models/card';
+import { Customer } from '@models/customer';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-card-form',
@@ -18,7 +19,7 @@ import { Customer } from '@models/customer.js';
 })
 export class CardForm {
   public currentCustomer = input.required<Customer>()
-  public customerList = input.required<ICustomer[]>()
+  public customerList = input.required<Customer[]>()
   public readonly cardTypes: IOptionsModel[] = [
     {
       label: 'Mastercard',
@@ -49,41 +50,41 @@ export class CardForm {
     cardNumber: new FormControl('', [Validators.required]),
     cardType: new FormControl(null, [Validators.required]),
     bankType: new FormControl(null, [Validators.required]),
-    cardPin: new FormControl('', [Validators.required])
+    cardPin: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{4}$')])
   })
 
-  public toLanding = output()
+  public onSubmit = output<Customer[]>()
+  public onReset = output()
 
-  public returnToLanding = (): void => this.toLanding.emit()
+  public returnToLanding = (): void => this.onReset.emit()
   public addCard() {
-    const newCard: ICard = {
-      balance: 0,
-      bankType: this.cardForm.controls.bankType.value!,
-      cardNumber: this.cardForm.controls.cardNumber.value!,
-      cardPin: this.cardForm.controls.cardPin.value!,
-      cardType: this.cardForm.controls.cardType.value!
-    }
-    const cardClass = new Card(
-      newCard.cardNumber,
-      newCard.cardType,
-      newCard.bankType,
-      newCard.cardPin,
-      newCard.balance,
+    const newCard = new Card(
+      this.cardForm.controls.cardNumber.value!,
+      this.cardForm.controls.cardType.value!,
+      this.cardForm.controls.bankType.value!,
+      this.cardForm.controls.cardPin.value!,
+      0,
     )
 
-    this.currentCustomer().cards = cardClass
-    const targetIndex = this.customerList().findIndex(customer => customer.uuid === this.currentCustomer().uuid)
-    this.customerList()[targetIndex].cards.push(newCard)
-    localStorage['customers'] = JSON.stringify(this.customerList())
-    this.toLanding.emit()
+    this.currentCustomer().cards = newCard
+    const targetIndex = this.customerList().findIndex(c => c.uuid === this.currentCustomer().uuid)
+    this.customerList()[targetIndex] = this.currentCustomer()
+
+    this.onSubmit.emit(this.customerList())
   }
 
-  public cardNumberModel = ''
+  constructor() {
+    this.cardForm.controls.cardNumber.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => this.formatCardNumber(value || ''))
+  }
 
-  public formatCardNumber(nb: string): void {
-    let res = nb.split('-').join()
-    if (res.length > 0)
-      res = res.match(new RegExp('[0-9]{1,4}', 'g'))!.join('-')
-    this.cardNumberModel = res
+  private formatCardNumber(nb: string): void {
+    let res = nb.replace(/\D/g, '')
+    if (res.length > 0) {
+      const parts = res.match(/.{1,4}/g)
+      res = parts ? parts.join('-') : ''
+    }
+    this.cardForm.controls.cardNumber.setValue(res, {emitEvent: false})
   }
 }

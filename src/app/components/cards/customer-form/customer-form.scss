@@ -1,0 +1,11 @@
+.formField {
+  display: flex;
+  align-items: center;
+  justify-content: normal;
+  gap: 0.5rem;
+  margin: 1rem 0;
+
+  &.radioField {
+    margin: -1rem 0 0 1rem;
+  }
+}
