@@ -1,31 +1,38 @@
 import { Component, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
+import { MatIcon } from '@angular/material/icon';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pad',
-  imports: [MatGridList, MatButtonModule, MatGridTile],
+  imports: [MatGridList, MatButtonModule, MatGridTile, MatIcon, MatFormFieldModule, MatInput, ReactiveFormsModule],
   templateUrl: './pad.html',
   styleUrl: './pad.scss',
 })
 export class Pad {
   public readonly validatePin = output<string>();
-  public readonly tiles = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'X', '0', 'V'];
-  public pin = '';
+  public readonly tiles = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'close', 0, 'check'];
 
-  handleClick(value: string): void {
+  public pinControl = new FormControl('')
+
+  handleClick(value: string | number): void {
+    let pin = this.pinControl.value
+    if (!pin) pin = ''
     switch (value) {
-      case 'X':
-        this.pin = '';
+      case 'close':
+        this.pinControl.reset()
         break;
-      case 'V':
-        if(this.pin.length === 4) {
-          this.validatePin.emit(this.pin);
+      case 'check':
+        if(pin.length === 4) {
+          this.validatePin.emit(pin);
         }
         break;
       default: {
-        if (this.pin.length < 4) {
-          this.pin += value;
+        if (pin.length < 4) {
+          this.pinControl.setValue(pin + value)
         }
         break;
       }

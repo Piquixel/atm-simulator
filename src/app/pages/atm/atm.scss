@@ -1,0 +1,17 @@
+.thinScrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--mat-sys-primary);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-button {
+    appearance: none;
+  }
+}

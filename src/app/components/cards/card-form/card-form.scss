@@ -1,0 +1,13 @@
+.formField {
+  position: relative;
+  display: flex;
+  justify-content: normal;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  width: 100%;
+
+  & > * {
+    width: 100%;
+  }
+}

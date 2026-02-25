@@ -17,6 +17,7 @@ import { Card } from '../../../models/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Customer } from '@models/customer.js';
 import { ICustomer } from '@models/index'
+import { MatGridListModule } from '@angular/material/grid-list';
 
 export function isMultiple(num: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -35,6 +36,7 @@ export function isMultiple(num: number): ValidatorFn {
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatGridListModule
 ],
   templateUrl: './action-menu.html',
   styleUrl: './action-menu.scss',
@@ -43,6 +45,8 @@ export class AtmActionMenu {
   private readonly _snackBar = inject(MatSnackBar);
   public readonly currentCard = input.required<Card>();
   public readonly currentCustomer = input.required<Customer>();
+
+  public readonly presets = [20, 50, 100, 200, 300, 500]
 
   public readonly withdrawal = new FormControl(null, [
     Validators.required,

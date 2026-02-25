@@ -1,11 +1,17 @@
 .formField {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: normal;
+  justify-content: space-between;
   gap: 0.5rem;
   margin: 1rem 0;
+  width: 100%;
 
   &.radioField {
     margin: -1rem 0 0 1rem;
+  }
+
+  & > * {
+    width: 100%;
   }
 }

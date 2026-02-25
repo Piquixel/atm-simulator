@@ -47,7 +47,7 @@ export class CardForm {
   ]
 
   public cardForm = new FormGroup({
-    cardNumber: new FormControl('', [Validators.required]),
+    cardNumber: new FormControl('', [Validators.required, Validators.minLength(19)]),
     cardType: new FormControl(null, [Validators.required]),
     bankType: new FormControl(null, [Validators.required]),
     cardPin: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{4}$')])

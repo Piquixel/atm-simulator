@@ -1,3 +1,19 @@
+<mat-grid-list cols="2">
+  <div>
+    <p>Solde</p>
+    <h1>{{ currentCard().balance | currency: 'EUR' }}</h1>
+  </div>
+  <div>
+    <form>
+      <mat-grid-list cols="3">
+        @for (p of presets; track p) {
+          <button matButton="tonal">{{ p | currency: 'EUR' }}</button>
+        }
+      </mat-grid-list>
+    </form>
+  </div>
+</mat-grid-list>
+
 <mat-accordion multi>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -6,7 +22,6 @@
         Solde
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <h3>{{ currentCard().balance | currency: 'EUR' }}</h3>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>

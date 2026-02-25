@@ -5,6 +5,8 @@
   display: block;
   padding: 2rem 3.33rem;
   box-shadow: var(--mat-sys-level3);
+  max-height: 70vh;
+  overflow-y: auto;
 
   .error-msg {
     color: var(--mat-sys-error);

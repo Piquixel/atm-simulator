@@ -1,3 +1,15 @@
+@use '@angular/material' as mat;
+
+:host {
+  @include mat.list-overrides(
+    (
+      list-item-one-line-container-height: auto,
+      list-item-two-line-container-height: auto,
+      list-item-three-line-container-height: auto,
+    )
+  );
+}
+
 mat-card {
   margin-top: 2rem;
 }
