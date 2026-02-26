@@ -2,8 +2,33 @@
   mat-form-field {
     width: 100%;
   }
+}
 
-  h3 {
-    text-align: center;
+.menuContainer {
+  display: grid;
+  grid-template-columns: 1fr 2rem 1fr;
+  width: 50vw;
+}
+
+mat-divider {
+  margin: 0 auto;
+}
+
+.textDisplay {
+  font: var(--mat-sys-display-large);
+}
+
+.textLabel {
+  font: var(--mat-sys-label-large);
+}
+
+.formField {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+
+  & > * {
+    width: 100%;
   }
 }

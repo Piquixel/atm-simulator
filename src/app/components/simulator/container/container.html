@@ -18,6 +18,8 @@
     @if (selectedCard) {
       <app-atm-action-menu
         (whenQuit)="changeStep(AtmStep.LANDING)"
+        (saveCustomers)="saveCustomers($event)"
+        [customersList]="customers()"
         [currentCustomer]="currentCustomer!"
         [currentCard]="selectedCard"
       ></app-atm-action-menu>

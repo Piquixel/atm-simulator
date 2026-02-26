@@ -45,4 +45,8 @@ export class AtmComponent {
       this.erroMessage = 'Attention, votre pin est incorrect';
     }
   }
+
+  public saveCustomers(customers: Customer[]): void {
+    this.customerService.save(customers)
+  }
 }

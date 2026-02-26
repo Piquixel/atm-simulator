@@ -31,11 +31,11 @@ export class CustomerForm {
     postalCode: new FormControl<number>(NaN, [Validators.required, Validators.min(1000), Validators.max(9992)])
   })
 
-  private _currentDate = new Date()
+  private _currentYear = new Date().getUTCFullYear()
 
   public readonly dateLimits = {
-    minDate: new Date(this._currentDate.getUTCFullYear() - 100, this._currentDate.getUTCMonth(), this._currentDate.getUTCDate()),
-    maxDate: this._currentDate
+    minDate: new Date(this._currentYear - 100, 0, 1),
+    maxDate: new Date(this._currentYear - 18, new Date().getUTCMonth(), new Date().getUTCDate())
   }
 
   public onSubmit = output<Customer[]>()

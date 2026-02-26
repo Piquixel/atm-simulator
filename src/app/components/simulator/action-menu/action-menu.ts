@@ -13,11 +13,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Card } from '../../../models/card';
+import { Card } from '@models/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Customer } from '@models/customer.js';
-import { ICustomer } from '@models/index'
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from '@angular/material/tabs';
 
 export function isMultiple(num: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -36,25 +37,28 @@ export function isMultiple(num: number): ValidatorFn {
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDividerModule,
+    MatTabsModule
 ],
   templateUrl: './action-menu.html',
   styleUrl: './action-menu.scss',
 })
 export class AtmActionMenu {
   private readonly _snackBar = inject(MatSnackBar);
+  public readonly customersList = input.required<Customer[]>();
   public readonly currentCard = input.required<Card>();
   public readonly currentCustomer = input.required<Customer>();
 
   public readonly presets = [20, 50, 100, 200, 300, 500]
 
-  public readonly withdrawal = new FormControl(null, [
+  public readonly withdrawal = new FormControl<number|null>(null, [
     Validators.required,
     Validators.min(5),
     isMultiple(5),
   ]);
 
-  public readonly deposit = new FormControl(null, [
+  public readonly deposit = new FormControl<number|null>(null, [
     Validators.required,
     Validators.min(5),
     isMultiple(5),
@@ -68,26 +72,25 @@ export class AtmActionMenu {
     });
   }
 
+  public saveCustomers = output<Customer[]>()
+
+  private saveData(): void {
+    const cardIndex = this.currentCustomer().cards.findIndex(card => card.cardNumber === this.currentCard().cardNumber)
+
+    const targetIndex = this.customersList().indexOf(this.currentCustomer())
+
+    this.currentCustomer().cards[cardIndex] = this.currentCard()
+
+    this.customersList()[targetIndex] = this.currentCustomer()
+
+    this.saveCustomers.emit(this.customersList())
+  }
+
   public handleDeposit(): void {
     this.currentCard().deposit(this.deposit.value!);
     this.deposit.reset();
-    const cardIndex = this.currentCustomer().cards.findIndex(card => card.cardNumber === this.currentCard().cardNumber)
 
-    const localCustomers: ICustomer[] = JSON.parse(localStorage['customers'])
-
-    const storedCustomer = localCustomers.find(customer => customer._uuid === this.currentCustomer().uuid)
-
-    console.log(storedCustomer)
-
-    if (!storedCustomer) return
-
-    const targetIndex = localCustomers.indexOf(storedCustomer)
-
-    storedCustomer._cards[cardIndex]._balance = this.currentCard().balance
-
-    localCustomers[targetIndex] = storedCustomer
-
-    localStorage['customers'] = JSON.stringify(localCustomers)
+    this.saveData()
 
     this._snackBar.open('Le dépôt est bien validé !', '', {
       verticalPosition: 'top',
@@ -100,11 +103,22 @@ export class AtmActionMenu {
     this.currentCard().withdrawal(this.withdrawal.value!);
     this.withdrawal.reset();
 
+    this.saveData()
+
     this._snackBar.open('Le retrait est bien validé !', '', {
       verticalPosition: 'top',
       duration: 2000,
     });
     this.updateValidatorMaximum();
+  }
+
+  public applyPreset(amount: number): void {
+    this.withdrawal.setValue(amount)
+    this.deposit.setValue(amount)
+  }
+
+  public resetField(field: FormControl): void {
+    field.reset()
   }
 
   private updateValidatorMaximum(): void {
