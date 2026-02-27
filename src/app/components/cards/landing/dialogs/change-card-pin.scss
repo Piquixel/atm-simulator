@@ -1,0 +1,14 @@
+form {
+  margin-top: 0.5rem !important;
+}
+
+.formField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.formField > label {
+  margin-top: -20px;
+}

@@ -39,7 +39,7 @@
   <div class="formField">
     <mat-form-field appearance="outline">
       <mat-label>Code PIN</mat-label>
-      <input matInput type="text" formControlName="cardPin" maxlength="4" />
+      <input matInput type="password" formControlName="cardPin" maxlength="4" />
       @if (cardForm.controls.cardPin.hasError('required')) {
         <mat-error>Veuillez entrer un code PIN</mat-error>
       } @else if (cardForm.controls.cardPin.hasError('pattern')) {

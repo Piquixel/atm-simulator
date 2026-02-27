@@ -24,7 +24,11 @@ export class Customer {
     return this._cards;
   }
 
-  public set cards(card: Card) {
+  public set cards(cards: Card[]) {
+    this._cards = cards
+  }
+
+  public addCard(card: Card) {
     this._cards.push(card)
   }
 }

@@ -28,4 +28,8 @@ export class CardsContainer {
     this.customerService.save(customers)
     this.changeStep(this.cardStep.LANDING)
   }
+
+  public handleCustomerUpdate(customers: Customer[]): void {
+    this.customerService.save(customers)
+  }
 }

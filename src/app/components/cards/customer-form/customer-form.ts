@@ -22,13 +22,13 @@ export class CustomerForm {
   public customersList = input<Customer[]>([])
   public gender = Gender
   public readonly customerForm = new FormGroup({
-    birthDate: new FormControl<Date>(new Date(), [Validators.required]),
-    firstName: new FormControl<string>('', [Validators.required]),
-    lastName: new FormControl<string>('',[Validators.required]),
-    gender: new FormControl<Gender>(this.gender.FEMALE,[Validators.required]),
-    address: new FormControl<string>('', [Validators.required]),
-    city: new FormControl<string>('', [Validators.required]),
-    postalCode: new FormControl<number>(NaN, [Validators.required, Validators.min(1000), Validators.max(9992)])
+    birthDate: new FormControl(null, [Validators.required]),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('',[Validators.required]),
+    gender: new FormControl(null,[Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
+    postalCode: new FormControl(null, [Validators.required, Validators.min(1000), Validators.max(9992)])
   })
 
   private _currentYear = new Date().getUTCFullYear()

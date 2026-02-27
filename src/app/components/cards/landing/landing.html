@@ -24,8 +24,12 @@
                   </mat-card-header>
                   <mat-card-content>{{ card.cardNumber }}</mat-card-content>
                   <mat-card-actions>
-                    <button matButton disabled>Changer le code PIN</button>
-                    <button matButton disabled>Supprimer la Carte</button>
+                    <button matButton (click)="openCardPinModifierDialog(card)">
+                      Changer le code PIN
+                    </button>
+                    <button matButton (click)="openCardRemovalDialog(card)">
+                      Supprimer la Carte
+                    </button>
                   </mat-card-actions>
                 </mat-card>
               </mat-list-item>
@@ -35,7 +39,9 @@
       </mat-card-content>
       <mat-card-actions>
         <button matButton="filled" (click)="goToCardForm(customer)">Ajouter une carte</button>
-        <button matButton="text" disabled>Supprimer le client</button>
+        <button matButton="text" (click)="openCustomerRemovalDialog(customer)">
+          Supprimer le client
+        </button>
       </mat-card-actions>
     </mat-card>
   }

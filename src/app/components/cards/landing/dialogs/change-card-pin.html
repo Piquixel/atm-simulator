@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Changer le code PIN</h2>
+<mat-dialog-content>
+  <form [formGroup]="pinForm">
+    <div class="formField">
+      <label>Code PIN Actuel:</label>
+      <mat-form-field appearance="outline">
+        <mat-label>Code PIN</mat-label>
+        <input matInput type="password" formControlName="currentPin" maxlength="4" />
+        @if (pinForm.controls.currentPin.hasError('pattern')) {
+          <mat-error>Votre PIN doit contenir 4 chiffres</mat-error>
+        } @else if (pinForm.controls.currentPin.hasError('required')) {
+          <mat-error>Ce champs est <b>requis</b></mat-error>
+        } @else if (pinForm.controls.currentPin.hasError('isCurrentPIN')) {
+          <mat-error>Code PIN invalide</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="formField">
+      <label>Nouveau Code PIN:</label>
+      <mat-form-field appearance="outline">
+        <mat-label>Code PIN</mat-label>
+        <input matInput type="password" formControlName="newPin" maxlength="4" />
+        @if (pinForm.controls.newPin.hasError('pattern')) {
+          <mat-error>Votre PIN doit contenir 4 chiffres</mat-error>
+        } @else if (pinForm.controls.newPin.hasError('required')) {
+          <mat-error>Ce champs est <b>requis</b></mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton="text" (click)="dialogIgnored()">Annuler</button>
+  <button
+    matButton="filled"
+    [disabled]="pinForm.invalid"
+    [mat-dialog-close]="pinForm.controls.newPin.value"
+  >
+    Valider
+  </button>
+</mat-dialog-actions>

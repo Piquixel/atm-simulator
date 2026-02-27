@@ -26,9 +26,11 @@ export class Card {
     return this._balance;
   }
 
-  public checkPin(pin: string): boolean {
-    return this._pin === pin;
+  public set pin(pin: string) {
+    this._pin = pin
   }
+
+  public checkPin = (pin: string): boolean => this._pin === pin;
 
   public deposit(amount: number): void {
     if (amount > 0) {

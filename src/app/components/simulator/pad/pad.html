@@ -4,7 +4,14 @@
 
 <mat-form-field appearance="outline">
   <mat-label>Code PIN</mat-label>
-  <input matInput type="text" [formControl]="pinControl" maxlength="4" />
+  <input
+    autofocus
+    matInput
+    type="password"
+    [formControl]="pinControl"
+    maxlength="4"
+    (keydown.enter)="handleClick('check')"
+  />
 </mat-form-field>
 <mat-grid-list cols="3" rowHeight="50px" gutterSize="12px">
   @for (t of tiles; track t) {

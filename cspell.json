@@ -1,9 +1,6 @@
 {
   "version": "0.2",
-  "dictionaries": [
-    "lorem-ipsum"
-  ],
-  "words": [
-    "REVOLUT"
-  ]
+  "dictionaries": ["lorem-ipsum"],
+  "language": "en, fr",
+  "words": ["REVOLUT"]
 }

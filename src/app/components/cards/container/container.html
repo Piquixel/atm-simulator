@@ -4,6 +4,7 @@
       [customersList]="customers()"
       (toCustomerAdd)="changeStep(cardStep.CUSTOMER_ADDITION)"
       (toCardAdd)="changeStep(cardStep.CARD_ADDITION, $event)"
+      (updateCustomers)="handleCustomerUpdate($event)"
     ></app-cards-landing>
   }
   @case (cardStep.CUSTOMER_ADDITION) {

@@ -8,6 +8,11 @@
       list-item-three-line-container-height: auto,
     )
   );
+  @include mat.dialog-overrides(
+    (
+      container-elevation-shadow: var(--mat-sys-level5),
+    )
+  );
 }
 
 mat-card[appearance='outlined'] {

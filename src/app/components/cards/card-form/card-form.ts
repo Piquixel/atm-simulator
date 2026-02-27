@@ -66,7 +66,7 @@ export class CardForm {
       0,
     )
 
-    this.currentCustomer().cards = newCard
+    this.currentCustomer().addCard(newCard)
     const targetIndex = this.customerList().findIndex(c => c.uuid === this.currentCustomer().uuid)
     this.customerList()[targetIndex] = this.currentCustomer()
 
