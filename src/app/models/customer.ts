@@ -28,7 +28,23 @@ export class Customer {
     this._cards = cards
   }
 
+  public getCardsNumber(): number {
+    return this._cards.length
+  }
+
   public addCard(card: Card) {
     this._cards.push(card)
+  }
+
+  public removeCard(card: Card): void {
+    this.cards = this.cards.filter(c => c !== card)
+  }
+
+  public getIndex(list: Customer[]): number {
+    return list.indexOf(this)
+  }
+
+  public findCard(cardNumber: string): Card | undefined {
+    return this._cards.find(card => card.cardNumber === cardNumber)
   }
 }

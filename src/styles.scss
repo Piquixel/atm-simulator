@@ -1,9 +1,5 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use 'mixins';
 
 * {
   user-select: none;
@@ -13,28 +9,292 @@ html {
   height: 100%;
   @include mat.theme(
     (
-      color: mat.$yellow-palette,
+      color: mat.$blue-palette,
       typography: Roboto,
       density: 0,
     )
   );
 }
 
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light dark;
+@media (prefers-color-scheme: dark) {
+  html {
+    @include mat.theme(
+      (
+        color: mat.$yellow-palette,
+      )
+    );
+  }
+}
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
+body {
+  color-scheme: light dark;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
   height: 100%;
 }
-/* You can add global styles to this file, and also import other style files */
+
+// Buttons border radius reduction
+:root {
+  @include mat.button-overrides(
+    (
+      filled-container-shape: var(--mat-sys-corner-extra-small),
+      text-container-shape: var(--mat-sys-corner-extra-small),
+    )
+  );
+
+  @include mat.fab-overrides(
+    (
+      small-container-shape: var(--mat-sys-corner-extra-small),
+      container-shape: var(--mat-sys-corner-extra-small),
+      extended-container-shape: var(--mat-sys-corner-extra-small),
+    )
+  );
+
+  @include mat.dialog-overrides(
+    (
+      container-elevation-shadow: var(--mat-sys-level5),
+    )
+  );
+
+  @include mat.stepper-overrides(
+    (
+      container-color: none,
+      header-focus-state-layer-color: none,
+    )
+  );
+}
+
+// Alternative button palette for specific actions such as removal
+.warn-btn-palette {
+  @include mat.button-overrides(
+    (
+      text-label-text-color: light-dark(hsl(0 77% 42%), hsl(0 100% 70%)),
+      text-state-layer-color: hsl(0 100% 50%),
+      text-ripple-color: hsl(0 100% 50% / 10%),
+    )
+  );
+
+  @include mat.fab-overrides(
+    (
+      small-container-color: light-dark(hsl(0 100% 80%), hsl(0 80% 25%)),
+      small-foreground-color: light-dark(hsl(0 85% 33%), hsl(0 100% 68.5%)),
+      small-state-layer-color: red,
+    )
+  );
+
+  @include mat.icon-button-overrides(
+    (
+      icon-color: light-dark(hsl(0 85% 33%), hsl(0 100% 68.5%)),
+    )
+  );
+}
+
+.full-height-form {
+  @include mixins.flex(column, space-between);
+  flex: 1 0 0;
+}
+
+// Clean alignment for form inputs
+.form-field {
+  position: relative;
+  @include mixins.flex($justify: space-between, $align: center, $gap: 0.5rem);
+  width: 100%;
+
+  // only adding margin if the element is a div
+  /* &:is(div) {
+    margin: 1rem 0;
+  }*/
+
+  // Giving full width to every direct children
+  & > * {
+    width: 100%;
+
+    // Forcing buttons to remove line breaks
+    &:is(button) {
+      white-space: nowrap;
+    }
+  }
+}
+
+// Form rows separations
+.fields {
+  @include mixins.flex(column, space-between, $gap: 0.5rem 0);
+}
+
+// Self-explicatory
+.full-width {
+  width: 100%;
+}
+
+// Gives a mat card its bank card aspect
+.bank-card {
+  @include mat.card-overrides(
+    (
+      filled-container-shape: var(--mat-sys-corner-small),
+      filled-container-elevation: var(--mat-sys-level3),
+      filled-container-color: var(--bank-color),
+    )
+  );
+
+  @debug #{var(--bank-color)};
+
+  aspect-ratio: 1.7/1;
+  color: hsl(0 0% 100%);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  width: 305px;
+  overflow: hidden;
+
+  .floating-actions {
+    position: absolute;
+    @include mixins.flex($gap: 0 0.33rem);
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+  }
+
+  &:hover .floating-actions {
+    opacity: 1;
+  }
+
+  // Sets the background based on the bank type
+  &.ING {
+    --bank-color: #ff6200;
+  }
+
+  &.BELFIUS {
+    --bank-color: #d00f44;
+  }
+
+  &.REVOLUT {
+    --bank-color: #d7258a;
+    background-image: radial-gradient(circle at 0% 100%, var(--bank-color) 0, #0277bc 90%);
+  }
+
+  &.BEOBANK {
+    --bank-color: #562281;
+  }
+
+  &.BNP {
+    --bank-color: #00955e;
+  }
+
+  // Card logos container
+  mat-card-header {
+    @include mixins.flex($justify: space-between);
+    margin-bottom: 2rem;
+
+    // Hides useless text container
+    & > div {
+      display: none;
+    }
+
+    // Breaks default image sizes
+    img {
+      width: auto;
+      height: auto;
+
+      &:first-of-type {
+        height: 24px;
+      }
+    }
+  }
+
+  // Applying column alignment to the card content
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    font: var(--mat-sys-title-large);
+    letter-spacing: var(--mat-sys-title-large-tracking);
+
+    // Applying label font to the card owner
+    span {
+      font: var(--mat-sys-title-medium);
+      letter-spacing: var(--mat-sys-title-medium-tracking);
+    }
+  }
+}
+
+// App container general styling
+.container-scroller {
+  position: relative;
+  @include mixins.flex($justify: center);
+  // display: block;
+  padding: 1rem calc(1.33rem - 12px) 1.5rem;
+  box-shadow: var(--mat-sys-level5);
+  scrollbar-gutter: stable both-edges;
+  min-width: 392px;
+  overflow: hidden scroll;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+  background-color: var(--mat-sys-surface-container-low);
+
+  // Gives space between & centers each cards
+  .card-list {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+    gap: 1.33rem;
+    justify-items: center;
+
+    // Removes useless card padding
+    mat-list-item {
+      width: fit-content;
+      padding: 0;
+    }
+  }
+
+  .user-pill {
+    background-color: var(--mat-sys-surface);
+    font: var(--mat-sys-label-small);
+    letter-spacing: var(--mat-sys-label-small-tracking);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--mat-sys-corner-full);
+    box-shadow: var(--mat-sys-level1);
+  }
+
+  mat-divider {
+    margin-block: 0.5rem 1rem;
+  }
+
+  .action-title {
+    @include mixins.flex($justify: space-between, $align: center);
+  }
+
+  .align-label {
+    @include mixins.flex($align: center, $gap: 0 0.5rem);
+  }
+
+  // Container's custom scrollbar (Chrome-based navigators only)
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--mat-sys-primary) 60%, transparent);
+    border-radius: 6px;
+    border: 4px solid transparent;
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: inline;
+  }
+}
+
+.title-text {
+  margin-block-start: 0;
+  text-align: center;
+
+  &.title-medium {
+    font: var(--mat-sys-title-medium);
+    letter-spacing: var(--mat-sys-title-medium-tracking);
+  }
+
+  &.title-large {
+    font: var(--mat-sys-title-large);
+    letter-spacing: var(--mat-sys-title-large-tracking);
+  }
+}

@@ -1,3 +1,4 @@
+// Imports
 import { Component, inject } from '@angular/core';
 import { Pad } from '../pad/pad';
 import { AtmActionMenu } from '../action-menu/action-menu';
@@ -5,28 +6,28 @@ import { AtmCardSelection } from '../card-selection/card-selection';
 import { AtmLanding } from '../landing/landing';
 import { AtmStep } from '@models/enums/atm-step.enum';
 import { Card } from '@models/card';
-import { Customer } from '@models/customer.js';
-import { CustomerService } from '../../../customer.service.js';
+import { Customer } from '@models/customer';
+import { CustomerService } from '@services/customer.service';
 
+// Main Component
 @Component({
   selector: 'app-atm-container',
   imports: [Pad, AtmActionMenu, AtmCardSelection, AtmLanding],
   templateUrl: './container.html',
-  styleUrl: './container.scss',
 })
 export class AtmComponent {
-  public readonly AtmStep = AtmStep;
+  // Injects
+  private readonly _customerService: CustomerService = inject(CustomerService)
 
-  public currentStep = AtmStep.LANDING;
+  // Properties
+  public readonly atmStep: typeof AtmStep = AtmStep;
+  public currentStep: AtmStep = this.atmStep.LANDING;
+  public customers = this._customerService.customers
+  public currentCustomer?: Customer
   public selectedCard?: Card;
   public erroMessage?: string;
 
-  private customerService = inject(CustomerService)
-
-  public customers = this.customerService.customers
-
-  public currentCustomer?: Customer
-
+  // Methods
   public changeStep(step: AtmStep): void {
     this.currentStep = step;
   }
@@ -46,7 +47,7 @@ export class AtmComponent {
     }
   }
 
-  public saveCustomers(customers: Customer[]): void {
-    this.customerService.save(customers)
+  public handleCustomersUpdate(customers: Customer[]): void {
+    this._customerService.save(customers)
   }
 }

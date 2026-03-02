@@ -1,13 +1,9 @@
-.formField {
-  position: relative;
-  display: flex;
-  justify-content: normal;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 1rem 0;
-  width: 100%;
+@use '../../../../mixins';
 
-  & > * {
-    width: 100%;
+#card-preview {
+  @include mixins.flex($justify: center);
+
+  .bank-card {
+    margin-bottom: 1.5rem;
   }
 }

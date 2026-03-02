@@ -1,19 +1,5 @@
-.formField {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin: 1rem 0;
-  width: 100%;
-
-  &.radioField {
-    margin: -1rem 0 0 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  & > * {
-    width: 100%;
-  }
+.radio-field {
+  margin: -1rem 0 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

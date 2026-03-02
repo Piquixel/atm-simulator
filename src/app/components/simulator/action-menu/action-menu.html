@@ -1,158 +1,116 @@
-<div class="menuContainer">
-  <div>
-    <h2>Carte</h2>
-    <p class="textLabel">
-      Solde:<br />
-      <span class="textDisplay">{{ currentCard().balance | currency: 'EUR' }}</span>
-    </p>
-    <button matButton (click)="quitScreen()">Quitter</button>
-  </div>
+<div class="menu-container">
+  <section class="menu-section">
+    <div class="fields">
+      <h2>Carte</h2>
+      <p class="label-text">
+        Solde:<br />
+        <span class="display-text">{{ currentCard().balance | currency: 'EUR' }}</span>
+      </p>
+      <mat-card appearance="filled" class="bank-card" [class]="currentCard().bank">
+        <mat-card-header>
+          <img mat-card-sm-image [src]="getLogo(currentCard().bank)" />
+          <img mat-card-sm-image [src]="getLogo(currentCard().type)" />
+        </mat-card-header>
+        <mat-card-content>
+          {{ obfuscateCardNbr(currentCard().cardNumber) }}
+          <span>{{ currentCustomer().fullname }}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <button matButton class="warn-btn-palette" (click)="leaveMenu()">Quitter</button>
+  </section>
   <mat-divider vertical></mat-divider>
-  <div>
-    <h2>Dépôt/Retrait</h2>
-    <mat-grid-list cols="3" rowHeight="5rem">
-      @for (p of presets; track p) {
-        <mat-grid-tile>
-          <button matButton="tonal" (click)="applyPreset(p)">{{ p | currency: 'EUR' }}</button>
-        </mat-grid-tile>
-      }
-    </mat-grid-list>
-    <mat-divider></mat-divider>
-    <mat-tab-group dynamicHeight>
-      <mat-tab label="Dépôt">
-        <mat-form-field appearance="outline" style="margin-top: 1rem">
-          <mat-label>Montant</mat-label>
-          <input matInput type="number" [formControl]="deposit" step="5" min="5" placeholder="50" />
-          <mat-icon matIconSuffix>euro</mat-icon>
-          @if (deposit.hasError('min')) {
-            <mat-error
-              >Attention, le montant ne peut être inférieur à
-              <b>{{ 5 | currency: 'EUR' }}</b></mat-error
-            >
-          } @else if (deposit.hasError('required')) {
-            <mat-error>Veuillez entrer un montant pour continuer.</mat-error>
-          } @else if (deposit.hasError('isMultiple')) {
-            <mat-error
-              >Attention, le montant doit être multiple de
-              <b>{{ 5 | currency: 'EUR' }}</b></mat-error
-            >
-          }
-        </mat-form-field>
-        <div class="formField">
-          <button matButton="filled" [disabled]="deposit.invalid" (click)="handleDeposit()">
-            Déposer
-          </button>
-          <button matButton="text" (click)="resetField(deposit)">Annuler</button>
-        </div>
-      </mat-tab>
-      <mat-tab label="Retrait">
-        <mat-form-field appearance="outline" style="margin-top: 1rem">
-          <mat-label>Montant</mat-label>
-          <input
-            matInput
-            [formControl]="withdrawal"
-            type="number"
-            min="5"
-            step="5"
-            placeholder="50"
-          />
-          <mat-icon matIconSuffix>euro</mat-icon>
-          @if (withdrawal.hasError('min')) {
-            <mat-error
-              >Attention, le montant ne peut être inférieur à
-              <b>{{ 5 | currency: 'EUR' }}</b></mat-error
-            >
-          } @else if (withdrawal.hasError('required')) {
-            <mat-error>Veuillez entrer un montant pour continuer</mat-error>
-          } @else if (withdrawal.hasError('max')) {
-            <mat-error
-              >Attention, le montant ne peut pas dépasser
-              <strong>{{ currentCard().balance | currency: 'EUR' }}</strong></mat-error
-            >
-          } @else if (withdrawal.hasError('isMultiple')) {
-            <mat-error
-              >Attention le montant doit être un multiple de
-              <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error
-            >
-          }
-        </mat-form-field>
-        <div class="formField">
-          <button matButton="filled" (click)="handleWithdrawl()" [disabled]="withdrawal.invalid">
-            Retirer
-          </button>
-          <button matButton="text" (click)="resetField(withdrawal)">Annuler</button>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-</div>
 
-<!-- <mat-accordion multi>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-icon color="primary">euro</mat-icon>
-        Solde
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-icon>arrow_downward</mat-icon>
-        Retrait
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-form-field appearance="outline">
-      <mat-label>Montant du retrait</mat-label>
-      <input matInput [formControl]="withdrawal" type="number" step="5" placeholder="50" />
-      <button matIconButton matSuffix [disabled]="withdrawal.invalid" (click)="handleWithdrawl()">
-        <mat-icon>check</mat-icon>
-      </button>
-      @if (withdrawal.hasError('min')) {
-        <mat-error
-          >Attention le montant minimum est de <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error
-        >
-      } @else if (withdrawal.hasError('required')) {
-        <mat-error>Un montant est <strong>requis</strong> pour continuer.</mat-error>
-      } @else if (withdrawal.hasError('max')) {
-        <mat-error
-          >Attention le montant maximum est de
-          <strong>{{ currentCard().balance | currency: 'EUR' }}</strong></mat-error
-        >
-      } @else if (withdrawal.hasError('isMultiple')) {
-        <mat-error
-          >Attention le montant doit être un multiple de
-          <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error
-        >
-      }
-    </mat-form-field>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-icon>arrow_upward</mat-icon>
-        dépôt
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-form-field appearance="outline">
-      <mat-label>Montant du dépôt</mat-label>
-      <input matInput [formControl]="deposit" type="number" step="5" placeholder="50" />
-      <button matIconButton matSuffix [disabled]="deposit.invalid" (click)="handleDeposit()">
-        <mat-icon>check</mat-icon>
-      </button>
-      @if (deposit.hasError('min')) {
-        <mat-error
-          >Attention le montant minimum est de <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error
-        >
-      } @else if (deposit.hasError('required')) {
-        <mat-error>Un montant est <strong>requis</strong> pour continuer.</mat-error>
-      } @else if (deposit.hasError('isMultiple')) {
-        <mat-error
-          >Attention le montant doit être un multiple de
-          <strong>{{ 5 | currency: 'EUR' }}</strong></mat-error
-        >
-      }
-    </mat-form-field>
-  </mat-expansion-panel>
-</mat-accordion> -->
+  <section class="menu-section">
+    <div class="fields">
+      <h2>Dépôt/Retrait</h2>
+      <mat-grid-list cols="3" rowHeight="5rem">
+        @for (p of presets; track p) {
+          <mat-grid-tile>
+            <button matButton="tonal" (click)="applyPreset(p)">{{ p | currency: 'EUR' }}</button>
+          </mat-grid-tile>
+        }
+      </mat-grid-list>
+      <mat-divider class="full-width"></mat-divider>
+      <mat-tab-group dynamicHeight>
+        <mat-tab label="Dépôt">
+          <div class="fields">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Montant</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  [formControl]="deposit"
+                  step="5"
+                  min="5"
+                  placeholder="50"
+                />
+                <mat-icon matIconSuffix>euro</mat-icon>
+                @if (deposit.hasError('required')) {
+                  <mat-error>Veuillez entrer un montant</mat-error>
+                } @else if (deposit.hasError('min')) {
+                  <mat-error>
+                    Le montant est inférieur à <b>{{ 5 | currency: 'EUR' }}</b>
+                  </mat-error>
+                } @else if (deposit.hasError('isMultiple')) {
+                  <mat-error> Le montant n'est pas multiple de<b>5</b> </mat-error>
+                }
+              </mat-form-field>
+            </div>
+            <div class="form-field">
+              <button matButton="filled" [disabled]="deposit.invalid" (click)="handleDeposit()">
+                Déposer
+              </button>
+              <button matButton="text" class="warn-btn-palette" (click)="resetField(deposit)">
+                Annuler
+              </button>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Retrait">
+          <div class="fields">
+            <mat-form-field appearance="outline">
+              <mat-label>Montant</mat-label>
+              <input
+                matInput
+                [formControl]="withdrawal"
+                type="number"
+                min="5"
+                step="5"
+                placeholder="50"
+              />
+              <mat-icon matIconSuffix>euro</mat-icon>
+              @if (withdrawal.hasError('required')) {
+                <mat-error>Veuillez entrer un montant</mat-error>
+              } @else if (withdrawal.hasError('min')) {
+                <mat-error
+                  >Le montant est inférieur à <b>{{ 5 | currency: 'EUR' }}</b></mat-error
+                >
+              } @else if (withdrawal.hasError('max')) {
+                <mat-error
+                  >Le montant entré est supérieur à
+                  <strong>{{ currentCard().balance | currency: 'EUR' }}</strong></mat-error
+                >
+              } @else if (withdrawal.hasError('isMultiple')) {
+                <mat-error>Le montant entré n'est pas multiple de <strong>5</strong></mat-error>
+              }
+            </mat-form-field>
+            <div class="form-field">
+              <button
+                matButton="filled"
+                (click)="handleWithdrawl()"
+                [disabled]="withdrawal.invalid"
+              >
+                Retirer
+              </button>
+              <button matButton="text" class="warn-btn-palette" (click)="resetField(withdrawal)">
+                Annuler
+              </button>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </section>
+</div>

@@ -1,56 +1,74 @@
 <h2>Ajouter une carte</h2>
-
-<form [formGroup]="cardForm">
-  <div class="formField">
-    <mat-form-field appearance="outline">
-      <mat-label>N° de la Carte</mat-label>
-      <input matInput type="text" maxlength="19" formControlName="cardNumber" />
-      @if (cardForm.controls.cardNumber.hasError('required')) {
-        <mat-error>Veuillez renseigner le numéro de votre carte</mat-error>
-      } @else if (cardForm.controls.cardNumber.hasError('minlength')) {
-        <mat-error>Le numéro de votre carte doit contenir 16 chiffres</mat-error>
-      }
-    </mat-form-field>
-  </div>
-  <div class="formField">
-    <mat-form-field appearance="outline">
-      <mat-label>Type de Carte</mat-label>
-      <mat-select formControlName="cardType">
-        @for (cardType of cardTypes; track cardType) {
-          <mat-option [value]="cardType.value">{{ cardType.label }}</mat-option>
+<form class="full-height-form" [formGroup]="cardForm" (submit)="addCard()" (reset)="leaveForm()">
+  <div class="fields">
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-label>N° de la Carte</mat-label>
+        <input
+          matInput
+          type="text"
+          maxlength="19"
+          formControlName="cardNumber"
+          placeholder="Ex: 1234-4567-7898-8765"
+        />
+        @if (cardForm.controls.cardNumber.hasError('required')) {
+          <mat-error>Veuillez enter un numéro de carte</mat-error>
+        } @else if (cardForm.controls.cardNumber.hasError('minlength')) {
+          <mat-error>Le numéro entré doit être long de 16 chiffres</mat-error>
         }
-      </mat-select>
-      @if (cardForm.controls.cardType.hasError('required')) {
-        <mat-error>Veuillez sélectionner un type</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Banque</mat-label>
-      <mat-select formControlName="bankType">
-        @for (bankType of bankTypes; track bankType) {
-          <mat-option [value]="bankType.value">{{ bankType.label }}</mat-option>
+      </mat-form-field>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Type de Carte</mat-label>
+        <mat-select formControlName="cardType">
+          @for (cardType of cardTypes; track cardType) {
+            <mat-option [value]="cardType.value">{{ cardType.label }}</mat-option>
+          }
+        </mat-select>
+        @if (cardForm.controls.cardType.hasError('required')) {
+          <mat-error>Veuillez sélectionner un type</mat-error>
         }
-      </mat-select>
-      @if (cardForm.controls.bankType.hasError('required')) {
-        <mat-error>Veuillez sélectionner une banque</mat-error>
-      }
-    </mat-form-field>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Banque</mat-label>
+        <mat-select formControlName="bankType">
+          @for (bankType of bankTypes; track bankType) {
+            <mat-option [value]="bankType.value">{{ bankType.label }}</mat-option>
+          }
+        </mat-select>
+        @if (cardForm.controls.bankType.hasError('required')) {
+          <mat-error>Veuillez sélectionner une banque</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Code PIN</mat-label>
+        <input matInput type="password" formControlName="cardPin" maxlength="4" />
+        @if (cardForm.controls.cardPin.hasError('required')) {
+          <mat-error>Veuillez entrer un code PIN</mat-error>
+        } @else if (cardForm.controls.cardPin.hasError('pattern')) {
+          <mat-error>Le code PIN entré ne correspond pas au format requis</mat-error>
+        }
+      </mat-form-field>
+    </div>
   </div>
-  <div class="formField">
-    <mat-form-field appearance="outline">
-      <mat-label>Code PIN</mat-label>
-      <input matInput type="password" formControlName="cardPin" maxlength="4" />
-      @if (cardForm.controls.cardPin.hasError('required')) {
-        <mat-error>Veuillez entrer un code PIN</mat-error>
-      } @else if (cardForm.controls.cardPin.hasError('pattern')) {
-        <mat-error>Votre code PIN <b>doit</b> être une suite de 4 chiffres</mat-error>
-      }
-    </mat-form-field>
+  <mat-divider></mat-divider>
+  <div id="card-preview">
+    <mat-card appearance="filled" class="bank-card" [class]="cardForm.controls.bankType.value">
+      <mat-card-header>
+        <img mat-card-sm-image [src]="getLogo(cardForm.controls.bankType.value)" />
+        <img mat-card-sm-image [src]="getLogo(cardForm.controls.cardType.value)" />
+      </mat-card-header>
+      <mat-card-content>
+        {{ obfuscateCardNbr(cardForm.controls.cardNumber.value) }}
+        <span>{{ currentCustomer().fullname }}</span>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <div class="formField">
-    <button type="submit" matButton="filled" [disabled]="cardForm.invalid" (click)="addCard()">
-      Ajouter
-    </button>
-    <button type="reset" matButton (click)="returnToLanding()">Annuler</button>
+  <div id="actions" class="form-field">
+    <button type="submit" matButton="filled" [disabled]="cardForm.invalid">Ajouter</button>
+    <button type="reset" class="warn-btn-palette" matButton>Annuler</button>
   </div>
 </form>

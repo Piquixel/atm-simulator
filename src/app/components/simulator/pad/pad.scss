@@ -1,12 +1,7 @@
+@use '../../../../mixins';
+
 :host {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 24rem;
-  .password {
-    text-align: center;
-    font-size: larger;
-    min-height: 60px;
-  }
+  @include mixins.flex(column, center);
+  width: fit-content;
+  margin-inline: auto;
 }

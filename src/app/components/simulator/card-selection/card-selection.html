@@ -1,40 +1,54 @@
 @if (customers().length === 0 || (customers().length === 1 && customers()[0].cards.length === 0)) {
-  <h2>Aucun Client Enregistré</h2>
-  <p>Veuillez enregistrer au moins un nouvelle carte pour commencer</p>
-  <br />
-  <button matButton="filled" routerLink="/card-list">Accéder à la liste de carte</button>
+  <div id="placeholder-container">
+    <h2 class="title-text title-large">Aucun Client Enregistré</h2>
+    <p>Veuillez enregistrer au moins un nouvelle carte pour commencer</p>
+    <button matButton="filled" class="full-width" routerLink="/card-list">
+      Accéder à la liste de carte
+    </button>
+  </div>
 } @else {
   <h2>Merci de sélectionnez votre carte</h2>
-  <mat-accordion>
+  <mat-stepper orientation="vertical" linear="false">
     @for (customer of customers(); track customer.uuid) {
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{ customer.fullname }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        @if (customer.cards.length === 0) {
-          <p>Aucune carte enregistrée</p>
-        } @else {
-          <mat-list>
-            @for (card of customer.cards; track card.cardNumber) {
-              <mat-divider></mat-divider>
-              <mat-list-item>
-                <mat-card appearance="raised">
-                  <mat-card-header>
-                    <mat-card-title>{{ card.bank }}</mat-card-title>
-                    <mat-card-subtitle>{{ card.type }}</mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <p>{{ card.cardNumber }}</p>
-                  </mat-card-content>
-                  <mat-card-actions>
-                    <button matButton (click)="chooseCard(card)">Choisir</button>
-                  </mat-card-actions>
-                </mat-card>
-              </mat-list-item>
+      <mat-step>
+        <ng-template matStepLabel>
+          <div class="align-label">
+            {{ customer.fullname }}
+            <span class="user-pill">{{ customer.getCardsNumber() }} card(s)</span>
+          </div>
+        </ng-template>
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>Cards</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            @if (customer.cards.length === 0) {
+              <p>Aucune carte enregistrée</p>
+            } @else {
+              <mat-divider class="full-width"></mat-divider>
+              <div class="card-list">
+                @for (card of customer.cards; track card.cardNumber) {
+                  <mat-card appearance="filled" class="bank-card" [class]="card.bank">
+                    <mat-card-header>
+                      <img mat-card-sm-image [src]="getLogo(card.bank)" />
+                      <img mat-card-sm-image [src]="getLogo(card.type)" />
+                    </mat-card-header>
+                    <mat-card-content>
+                      {{ obfuscateCardNbr(card.cardNumber) }}
+                      <span>{{ customer.fullname }}</span>
+                    </mat-card-content>
+                    <mat-card-actions class="floating-actions">
+                      <button matMiniFab (click)="chooseCard(card)">
+                        <mat-icon>check</mat-icon>
+                      </button>
+                    </mat-card-actions>
+                  </mat-card>
+                }
+              </div>
             }
-          </mat-list>
-        }
-      </mat-expansion-panel>
+          </mat-card-content>
+        </mat-card>
+      </mat-step>
     }
-  </mat-accordion>
+  </mat-stepper>
 }

@@ -1,1 +1,49 @@
-<p>home works!</p>
+<h4 i18n class="pillTitle">simulateur atm</h4>
+<hgroup>
+  <h1>Gérez votre argent <span>simplement</span></h1>
+  <p>Consultez vos comptes, effectuez des retraits et dépôts en quelques clics.</p>
+</hgroup>
+
+<div>
+  <button matButton="filled" routerLink="/atm">Commencer</button>
+  <button matButton="text" routerLink="/card-list">Mes Cartes</button>
+</div>
+
+<mat-grid-list cols="2" rowHeight="6rem" gutterSize="1rem">
+  <mat-grid-tile>
+    <mat-card appearance="raised">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>visibility</mat-icon>
+        <mat-card-title>Consultation</mat-card-title>
+        <mat-card-subtitle>Vérifiez votre solde à tout moment</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile
+    ><mat-card appearance="raised">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>arrow_downward</mat-icon>
+        <mat-card-title>Dépôt</mat-card-title>
+        <mat-card-subtitle>Alimentez votre compte facilement</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card appearance="raised">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>arrow_upward</mat-icon>
+        <mat-card-title>Retrait</mat-card-title>
+        <mat-card-subtitle>Retirez jusqu'à {{ 500 | currency: 'EUR' }} par jour</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card appearance="raised">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>key</mat-icon>
+        <mat-card-title>Sécurité</mat-card-title>
+        <mat-card-subtitle>Modifiez votre code PIN</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card></mat-grid-tile
+  >
+</mat-grid-list>

@@ -1,3 +1,17 @@
-.example-spacer {
-  flex: 1 1 auto;
+@use '../../../mixins';
+
+mat-toolbar {
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  padding-inline: 3.33rem;
+  background-color: var(--mat-sys-surface-container-low);
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .barTitle {
+    @include mixins.flex($align: center, $gap: 0 0.33rem);
+    font: var(--mat-sys-headline-medium);
+    letter-spacing: var(--mat-sys-headline-medium-tracking);
+  }
 }

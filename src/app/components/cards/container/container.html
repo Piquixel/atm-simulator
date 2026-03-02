@@ -2,24 +2,26 @@
   @case (cardStep.LANDING) {
     <app-cards-landing
       [customersList]="customers()"
-      (toCustomerAdd)="changeStep(cardStep.CUSTOMER_ADDITION)"
-      (toCardAdd)="changeStep(cardStep.CARD_ADDITION, $event)"
-      (updateCustomers)="handleCustomerUpdate($event)"
+      (customerAddition)="changeStep(cardStep.CUSTOMER_ADDITION)"
+      (cardChange)="changeStep(cardStep.CARD_ADDITION, $event)"
+      (customersUpdate)="handleCustomersUpdate($event, false)"
     ></app-cards-landing>
   }
   @case (cardStep.CUSTOMER_ADDITION) {
     <app-customer-form
+      class="form-container"
       [customersList]="customers()"
-      (onSubmit)="updateCustomerList($event)"
-      (onReset)="changeStep(cardStep.LANDING)"
+      (submitCustomer)="handleCustomersUpdate($event)"
+      (cancelCustomer)="changeStep(cardStep.LANDING)"
     ></app-customer-form>
   }
   @case (cardStep.CARD_ADDITION) {
     <app-card-form
+      class="form-container"
       [currentCustomer]="currentCustomer!"
-      [customerList]="customers()"
-      (onSubmit)="updateCustomerList($event)"
-      (onReset)="changeStep(cardStep.LANDING)"
+      [customersList]="customers()"
+      (submitCard)="handleCustomersUpdate($event)"
+      (cancelCard)="changeStep(cardStep.LANDING)"
     ></app-card-form>
   }
 }

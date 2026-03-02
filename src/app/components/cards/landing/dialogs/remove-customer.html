@@ -3,6 +3,6 @@
   Voulez-vous vraiment supprimer <u>{{ data.customer.fullname }}</u> de la liste des clients ?
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button matButton="text" (click)="dialogIgnored()">Non</button>
+  <button matButton="text" (click)="closeDialog()">Non</button>
   <button matButton="filled" [mat-dialog-close]="true" cdkFocusInitial>Oui</button>
 </mat-dialog-actions>

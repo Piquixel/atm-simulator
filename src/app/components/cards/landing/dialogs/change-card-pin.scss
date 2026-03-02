@@ -1,14 +1,7 @@
-form {
-  margin-top: 0.5rem !important;
+:host form {
+  margin-top: 0.5rem;
 }
 
-.formField {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.formField > label {
+.form-field > label {
   margin-top: -20px;
 }

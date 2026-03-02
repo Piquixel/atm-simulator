@@ -1,6 +1,9 @@
 @use '@angular/material' as mat;
 
 :host {
+  display: inline-block;
+  width: 100%;
+
   @include mat.list-overrides(
     (
       list-item-one-line-container-height: auto,
@@ -17,4 +20,12 @@
 
 mat-card[appearance='outlined'] {
   margin-bottom: 1rem;
+}
+
+.btn-fixed {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 1rem;
+  z-index: 1;
 }

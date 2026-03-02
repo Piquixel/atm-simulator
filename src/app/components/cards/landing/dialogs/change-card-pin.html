@@ -1,36 +1,38 @@
 <h2 mat-dialog-title>Changer le code PIN</h2>
 <mat-dialog-content>
   <form [formGroup]="pinForm">
-    <div class="formField">
+    <div class="form-field">
       <label>Code PIN Actuel:</label>
       <mat-form-field appearance="outline">
         <mat-label>Code PIN</mat-label>
         <input matInput type="password" formControlName="currentPin" maxlength="4" />
-        @if (pinForm.controls.currentPin.hasError('pattern')) {
-          <mat-error>Votre PIN doit contenir 4 chiffres</mat-error>
-        } @else if (pinForm.controls.currentPin.hasError('required')) {
+        @if (pinForm.controls.currentPin.hasError('required')) {
           <mat-error>Ce champs est <b>requis</b></mat-error>
+        } @else if (pinForm.controls.currentPin.hasError('pattern')) {
+          <mat-error>Votre PIN doit contenir 4 chiffres</mat-error>
         } @else if (pinForm.controls.currentPin.hasError('isCurrentPIN')) {
           <mat-error>Code PIN invalide</mat-error>
         }
       </mat-form-field>
     </div>
-    <div class="formField">
+    <div class="form-field">
       <label>Nouveau Code PIN:</label>
       <mat-form-field appearance="outline">
         <mat-label>Code PIN</mat-label>
         <input matInput type="password" formControlName="newPin" maxlength="4" />
-        @if (pinForm.controls.newPin.hasError('pattern')) {
-          <mat-error>Votre PIN doit contenir 4 chiffres</mat-error>
-        } @else if (pinForm.controls.newPin.hasError('required')) {
+        @if (pinForm.controls.newPin.hasError('required')) {
           <mat-error>Ce champs est <b>requis</b></mat-error>
+        } @else if (pinForm.controls.newPin.hasError('pattern')) {
+          <mat-error>Votre PIN doit contenir 4 chiffres</mat-error>
+        } @else if (pinForm.controls.newPin.hasError('isCurrentPIN')) {
+          <mat-error>Vos codes doivent être différents</mat-error>
         }
       </mat-form-field>
     </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button matButton="text" (click)="dialogIgnored()">Annuler</button>
+  <button matButton="text" class="warn-btn-palette" (click)="closeDialog()">Annuler</button>
   <button
     matButton="filled"
     [disabled]="pinForm.invalid"

@@ -1,83 +1,80 @@
 <h2>Enregistrer un Nouveau Client</h2>
-
-<form [formGroup]="customerForm">
-  <div class="formField">
-    <mat-form-field appearance="outline">
-      <mat-label>Date de Naissance</mat-label>
-      <input
-        matInput
-        [matDatepicker]="bdPicker"
-        formControlName="birthDate"
-        [min]="dateLimits.minDate"
-        [max]="dateLimits.maxDate"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      @if (customerForm.controls.birthDate.hasError('required')) {
-        <mat-error>Une date est <b>requise</b></mat-error>
-      }
-      <mat-datepicker-toggle matIconSuffix [for]="bdPicker"></mat-datepicker-toggle>
-      <mat-datepicker #bdPicker></mat-datepicker>
-    </mat-form-field>
+<form
+  class="full-height-form"
+  [formGroup]="customerForm"
+  (submit)="createCustomer()"
+  (reset)="leaveForm()"
+>
+  <div class="fields">
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Date de Naissance</mat-label>
+        <input
+          matInput
+          [matDatepicker]="datePicker"
+          formControlName="birthDate"
+          [min]="dateLimits.minDate"
+          [max]="dateLimits.maxDate"
+        />
+        <mat-hint>JJ/MM/AAAA</mat-hint>
+        @if (customerForm.controls.birthDate.hasError('required')) {
+          <mat-error>Veuillez entrer votre date de naissance</mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Prénom</mat-label>
+        <input matInput type="text" formControlName="firstName" />
+        @if (customerForm.controls.firstName.hasError('required')) {
+          <mat-error>Veuillez entrer votre prénom</mat-error>
+        } @else if (customerForm.controls.firstName.hasError('pattern')) {
+          <mat-error>Le prénom entré n'a pas le format requis</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nom de Famille</mat-label>
+        <input matInput type="text" formControlName="lastName" />
+        @if (customerForm.controls.lastName.hasError('required')) {
+          <mat-error>Veuillez entrer votre nom de famille</mat-error>
+        } @else if (customerForm.controls.lastName.hasError('pattern')) {
+          <mat-error>Le nom entré n'a pas le format requis</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="form-field radio-field">
+      <label>Genre: </label>
+      <mat-radio-group formControlName="gender">
+        <mat-radio-button [value]="gender.FEMALE">Femme</mat-radio-button>
+        <mat-radio-button [value]="gender.MALE">Homme</mat-radio-button>
+        <mat-radio-button [value]="gender.OTHER">Autre</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Adresse</mat-label>
+        <input matInput type="text" formControlName="address" />
+        @if (customerForm.controls.address.hasError('required')) {
+          <mat-error>Veuillez entrer votre adresse</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ville</mat-label>
+        <input matInput type="text" formControlName="city" />
+        @if (customerForm.controls.city.hasError('required')) {
+          <mat-error>Veuillez entrer une ville</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Code Postal</mat-label>
+        <input matInput type="number" maxlength="4" formControlName="postalCode" />
+      </mat-form-field>
+    </div>
   </div>
-  <div class="formField">
-    <mat-form-field appearance="outline">
-      <mat-label>Prénom</mat-label>
-      <input matInput type="text" formControlName="firstName" />
-      @if (customerForm.controls.firstName.hasError('required')) {
-        <mat-error>Un prénom est <b>requis</b></mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Nom de Famille</mat-label>
-      <input matInput type="text" formControlName="lastName" />
-      @if (customerForm.controls.lastName.hasError('required')) {
-        <mat-error>Un nom de famille est <b>requis</b></mat-error>
-      }
-    </mat-form-field>
-  </div>
-  <div class="formField radioField">
-    <label for="genderRadioGroup">Genre: </label>
-    <mat-radio-group formControlName="gender" id="genderRadioGroup">
-      <mat-radio-button [value]="gender.FEMALE">Femme</mat-radio-button>
-      <mat-radio-button [value]="gender.MALE">Homme</mat-radio-button>
-      <mat-radio-button [value]="gender.OTHER">Autre</mat-radio-button>
-    </mat-radio-group>
-    @if (customerForm.controls.gender.hasError('required')) {
-      <mat-error>Un genre est <b>requis</b></mat-error>
-    }
-  </div>
-  <div class="formField">
-    <mat-form-field appearance="outline">
-      <mat-label>Adresse</mat-label>
-      <input matInput type="text" name="" id="" formControlName="address" />
-      @if (customerForm.controls.address.hasError('required')) {
-        <mat-error>Une adresse est <b>requise</b></mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Ville</mat-label>
-      <input matInput type="text" name="" id="" formControlName="city" />
-      @if (customerForm.controls.city.hasError('required')) {
-        <mat-error>Une ville est <b>requise</b></mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Code Postal</mat-label>
-      <input matInput type="number" maxlength="4" formControlName="postalCode" />
-      @if (customerForm.controls.postalCode.hasError('required')) {
-        <mat-error>Un code postal est <b>requis</b></mat-error>
-      }
-    </mat-form-field>
-  </div>
-  <div class="formField">
-    <button
-      matButton="filled"
-      type="submit"
-      (click)="createCustomer()"
-      [disabled]="customerForm.invalid"
-    >
-      Créer
-    </button>
-    <button matButton type="reset" (click)="returnToLanding()">Annuler</button>
+  <div id="actions" class="form-field">
+    <button matButton="filled" type="submit" [disabled]="customerForm.invalid">Créer</button>
+    <button matButton type="reset" class="warn-btn-palette">Annuler</button>
   </div>
 </form>

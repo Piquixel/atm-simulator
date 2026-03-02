@@ -1,12 +1,11 @@
-<div class="title">
+<div class="title-text title-large">
   <h3>Entrez votre code pin</h3>
 </div>
-
 <mat-form-field appearance="outline">
   <mat-label>Code PIN</mat-label>
   <input
-    autofocus
     matInput
+    autofocus
     type="password"
     [formControl]="pinControl"
     maxlength="4"

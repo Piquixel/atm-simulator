@@ -1,6 +1,8 @@
+// Imports
 import { Component, output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 
+// Main Component
 @Component({
   selector: 'app-atm-landing',
   imports: [MatButton],
@@ -8,9 +10,11 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './landing.scss',
 })
 export class AtmLanding {
-  public whenNext = output<void>();
+  // Outputs
+  public readonly selectCard = output<void>();
 
+  // Methods
   public cardSelection(): void {
-    this.whenNext.emit();
+    this.selectCard.emit();
   }
 }

@@ -1,3 +1,4 @@
+// Imports
 import { CurrencyPipe } from '@angular/common';
 import { Component, effect, inject, input, output } from '@angular/core';
 import {
@@ -13,13 +14,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Card } from '@models/card';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Customer } from '@models/customer.js';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { Card } from '@models/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Customer } from '@models/customer';
+import { BankType } from '@models/enums/bank-type.enum';
+import { CardType } from '@models/enums/card-type.enum';
 
+// Local Validator, check if control value is multiple of num
 export function isMultiple(num: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = Number(control.value);
@@ -27,6 +32,7 @@ export function isMultiple(num: number): ValidatorFn {
   };
 }
 
+// Main Component
 @Component({
   selector: 'app-atm-action-menu',
   imports: [
@@ -39,19 +45,36 @@ export function isMultiple(num: number): ValidatorFn {
     ReactiveFormsModule,
     MatGridListModule,
     MatDividerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule
 ],
   templateUrl: './action-menu.html',
   styleUrl: './action-menu.scss',
 })
 export class AtmActionMenu {
+  constructor() {
+    effect(() => {
+      this.updateValidatorMaximum();
+    });
+  }
+
+  // Injects
   private readonly _snackBar = inject(MatSnackBar);
-  public readonly customersList = input.required<Customer[]>();
+
+  // Inputs
   public readonly currentCard = input.required<Card>();
   public readonly currentCustomer = input.required<Customer>();
+  public readonly customersList = input.required<Customer[]>();
 
-  public readonly presets = [20, 50, 100, 200, 300, 500]
+  // Outputs
+  public customersUpdate = output<Customer[]>()
+  public leftMenu = output<void>();
 
+  // Properties
+  public readonly presets = [20, 50, 100, 200, 300, 500];
+  private _withdrawalMaxValidationRef?: ValidatorFn;
+
+  // FormControls
   public readonly withdrawal = new FormControl<number|null>(null, [
     Validators.required,
     Validators.min(5),
@@ -64,16 +87,12 @@ export class AtmActionMenu {
     isMultiple(5),
   ]);
 
-  private withdrawalMaxValidationRef?: ValidatorFn;
-
-  constructor() {
-    effect(() => {
-      this.updateValidatorMaximum();
-    });
+  // Methods
+  private showSnack(message: string, duration = 2500): void {
+    this._snackBar.open(message, '', {
+      duration
+    })
   }
-
-  public saveCustomers = output<Customer[]>()
-
   private saveData(): void {
     const cardIndex = this.currentCustomer().cards.findIndex(card => card.cardNumber === this.currentCard().cardNumber)
 
@@ -83,32 +102,30 @@ export class AtmActionMenu {
 
     this.customersList()[targetIndex] = this.currentCustomer()
 
-    this.saveCustomers.emit(this.customersList())
+    this.customersUpdate.emit(this.customersList())
+  }
+
+  public resetField(field: FormControl): void {
+    field.reset()
   }
 
   public handleDeposit(): void {
     this.currentCard().deposit(this.deposit.value!);
-    this.deposit.reset();
+    this.resetField(this.deposit)
 
     this.saveData()
 
-    this._snackBar.open('Le dépôt est bien validé !', '', {
-      verticalPosition: 'top',
-      duration: 2000,
-    });
+    this.showSnack('Le dépôt a bien été validé!')
     this.updateValidatorMaximum();
   }
 
   public handleWithdrawl(): void {
     this.currentCard().withdrawal(this.withdrawal.value!);
-    this.withdrawal.reset();
+    this.resetField(this.withdrawal)
 
     this.saveData()
 
-    this._snackBar.open('Le retrait est bien validé !', '', {
-      verticalPosition: 'top',
-      duration: 2000,
-    });
+    this.showSnack('Le retrait a bien été validé!')
     this.updateValidatorMaximum();
   }
 
@@ -117,24 +134,33 @@ export class AtmActionMenu {
     this.deposit.setValue(amount)
   }
 
-  public resetField(field: FormControl): void {
-    field.reset()
-  }
-
   private updateValidatorMaximum(): void {
-    if (this.withdrawalMaxValidationRef) {
-      this.withdrawal.removeValidators(this.withdrawalMaxValidationRef);
+    if (this._withdrawalMaxValidationRef) {
+      this.withdrawal.removeValidators(this._withdrawalMaxValidationRef);
     }
 
-    this.withdrawalMaxValidationRef = Validators.max(this.currentCard().balance);
+    this._withdrawalMaxValidationRef = Validators.max(this.currentCard().balance);
 
-    this.withdrawal.addValidators(this.withdrawalMaxValidationRef);
+    this.withdrawal.addValidators(this._withdrawalMaxValidationRef);
     this.withdrawal.updateValueAndValidity();
   }
 
-  public whenQuit = output<void>();
+  public leaveMenu(): void {
+    this.leftMenu.emit();
+  }
 
-  public quitScreen(): void {
-    this.whenQuit.emit();
+  public getLogo(type: BankType | CardType): string {
+    if (type === CardType.OTHER) return ''
+    return `/logos/${type.toLowerCase()}.png`
+  }
+
+  public obfuscateCardNbr(nbr: string): string {
+    const cardNbrParts = nbr.split('-')
+
+    for (let i = 0; i < cardNbrParts.length - 1; i++) {
+      cardNbrParts[i] = '*'.repeat(4)
+    }
+
+    return cardNbrParts.join('-')
   }
 }
