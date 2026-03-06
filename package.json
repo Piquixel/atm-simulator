@@ -6,7 +6,6 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "lint": "ng lint"
   },
   "private": true,
@@ -30,7 +29,6 @@
     "@angular/build": "^21.2.0",
     "@angular/cli": "^21.2.0",
     "@angular/compiler-cli": "^21.2.0",
-    "@angular/localize": "^21.2.0",
     "angular-eslint": "21.2.0",
     "jsdom": "^28.1.0",
     "typescript": "^5.9.3",

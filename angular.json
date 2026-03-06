@@ -47,11 +47,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["/src/"]
-            },
-            "polyfills": ["@angular/localize/init"]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -88,9 +84,6 @@
             }
           },
           "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
