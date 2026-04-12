@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Customer } from '@models/customer';
+import { Customer } from 'models/customer';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   MAT_DIALOG_DATA,
@@ -17,7 +17,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { Card } from '@models/card.js';
+import { Card } from 'models/card.js';
 import {
   AbstractControl,
   FormControl,
@@ -28,8 +28,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { BankType } from '@models/enums/bank-type.enum';
-import { CardType } from '@models/enums/card-type.enum';
+import { BankType } from 'models/enums/bank-type.enum';
+import { CardType } from 'models/enums/card-type.enum';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 

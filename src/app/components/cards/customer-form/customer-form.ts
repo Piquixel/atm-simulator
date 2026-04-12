@@ -6,8 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Gender } from '@models/enums/gender.enum';
-import { Customer } from '@models/customer';
+import { Gender } from 'models/enums/gender.enum';
+import { Customer } from 'models/customer';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({

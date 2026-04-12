@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CardsContainer } from '@components/cards/container/container.js';
+import { CardsContainer } from 'components/cards/container/container.js';
 
 @Component({
   selector: 'app-card-list',
@@ -7,6 +7,4 @@ import { CardsContainer } from '@components/cards/container/container.js';
   templateUrl: './card-list.html',
   styleUrl: './card-list.scss',
 })
-export class CardList {
-
-}
+export class CardList {}

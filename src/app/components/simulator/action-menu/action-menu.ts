@@ -18,11 +18,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
-import { Card } from '@models/card';
+import { Card } from 'models/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Customer } from '@models/customer';
-import { BankType } from '@models/enums/bank-type.enum';
-import { CardType } from '@models/enums/card-type.enum';
+import { Customer } from 'models/customer';
+import { BankType } from 'models/enums/bank-type.enum';
+import { CardType } from 'models/enums/card-type.enum';
 
 // Local Validator, check if control value is multiple of num
 export function isMultiple(num: number): ValidatorFn {

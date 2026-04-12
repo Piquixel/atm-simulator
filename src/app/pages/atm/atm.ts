@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AtmComponent } from '@components/simulator/container/container';
+import { AtmComponent } from 'components/simulator/container/container';
 
 @Component({
   selector: 'app-atm',

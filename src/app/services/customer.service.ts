@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { Card } from '@models/card.js';
-import { Customer } from '@models/customer.js';
-import { ICustomer } from '@models/index.js';
+import { Card } from 'models/card.js';
+import { Customer } from 'models/customer.js';
+import { ICustomer } from 'models/index.js';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {

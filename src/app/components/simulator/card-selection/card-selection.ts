@@ -6,10 +6,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from "@angular/router";
-import { Card } from '@models/card';
-import { Customer } from '@models/customer';
-import { BankType } from '@models/enums/bank-type.enum';
-import { CardType } from '@models/enums/card-type.enum';
+import { Card } from 'models/card';
+import { Customer } from 'models/customer';
+import { BankType } from 'models/enums/bank-type.enum';
+import { CardType } from 'models/enums/card-type.enum';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 

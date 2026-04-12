@@ -1,11 +1,11 @@
 // Imports
 import { Component, inject, Signal } from '@angular/core';
-import { CardStep } from '@models/enums/card-step.enum';
+import { CardStep } from 'models/enums/card-step.enum';
 import { CardsLanding } from '../landing/landing';
 import { CustomerForm } from "../customer-form/customer-form";
-import { Customer } from '@models/customer';
+import { Customer } from 'models/customer';
 import { CardForm } from '../card-form/card-form';
-import { CustomerService } from '@services/customer.service';
+import { CustomerService } from 'services/customer.service';
 
 // Main Component
 @Component({

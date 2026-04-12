@@ -7,11 +7,11 @@ import { MatInput } from "@angular/material/input";
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
-import { CardType } from '@models/enums/card-type.enum';
-import { IOptionsModel } from '@models/index';
-import { BankType } from '@models/enums/bank-type.enum';
-import { Customer } from '@models/customer';
-import { Card } from '@models/card';
+import { CardType } from 'models/enums/card-type.enum';
+import { IOptionsModel } from 'models/index';
+import { BankType } from 'models/enums/bank-type.enum';
+import { Customer } from 'models/customer';
+import { Card } from 'models/card';
 import { MatCardModule } from '@angular/material/card';
 
 // Main Component

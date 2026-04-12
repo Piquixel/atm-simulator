@@ -4,10 +4,10 @@ import { Pad } from '../pad/pad';
 import { AtmActionMenu } from '../action-menu/action-menu';
 import { AtmCardSelection } from '../card-selection/card-selection';
 import { AtmLanding } from '../landing/landing';
-import { AtmStep } from '@models/enums/atm-step.enum';
-import { Card } from '@models/card';
-import { Customer } from '@models/customer';
-import { CustomerService } from '@services/customer.service';
+import { AtmStep } from 'models/enums/atm-step.enum';
+import { Card } from 'models/card';
+import { Customer } from 'models/customer';
+import { CustomerService } from 'services/customer.service';
 
 // Main Component
 @Component({
