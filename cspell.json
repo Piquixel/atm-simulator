@@ -1,6 +1,11 @@
 {
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.2",
+  "allowCompoundWords": true,
+  "caseSensitive": true,
   "dictionaries": ["lorem-ipsum"],
-  "language": "en, fr",
+  "dictionaryDefinitions": [],
+  "language": "en-GB, fr",
+  "ignoreWords": [],
   "words": ["luxon", "revolut", "uuidv", "beobank"]
 }

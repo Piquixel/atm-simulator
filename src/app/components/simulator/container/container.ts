@@ -1,13 +1,13 @@
 // Imports
 import { Component, inject } from '@angular/core';
-import { Pad } from '../pad/pad';
+import { AtmStep } from 'enums/atm-step.enum';
+import { Card } from 'models/card';
+import { Customer } from 'models/customer';
+import { CustomerService } from 'services/customer.service';
 import { AtmActionMenu } from '../action-menu/action-menu';
 import { AtmCardSelection } from '../card-selection/card-selection';
 import { AtmLanding } from '../landing/landing';
-import { AtmStep } from '@models/enums/atm-step.enum';
-import { Card } from '@models/card';
-import { Customer } from '@models/customer';
-import { CustomerService } from '@services/customer.service';
+import { Pad } from '../pad/pad';
 
 // Main Component
 @Component({
@@ -17,13 +17,13 @@ import { CustomerService } from '@services/customer.service';
 })
 export class AtmComponent {
   // Injects
-  private readonly _customerService: CustomerService = inject(CustomerService)
+  private readonly _customerService: CustomerService = inject(CustomerService);
 
   // Properties
   public readonly atmStep: typeof AtmStep = AtmStep;
   public currentStep: AtmStep = this.atmStep.LANDING;
-  public customers = this._customerService.customers
-  public currentCustomer?: Customer
+  public customers = this._customerService.customers;
+  public currentCustomer?: Customer;
   public selectedCard?: Card;
   public erroMessage?: string;
 
@@ -34,7 +34,9 @@ export class AtmComponent {
 
   public handleSelectCard(card: Card) {
     this.selectedCard = card;
-    this.currentCustomer = this.customers().find(cus => cus.cards.find(c => c.cardNumber === card.cardNumber))
+    this.currentCustomer = this.customers().find(cus =>
+      cus.cards.find((c: Card) => c.cardNumber === card.cardNumber),
+    );
     this.changeStep(AtmStep.PIN_PAD);
   }
 
@@ -48,6 +50,6 @@ export class AtmComponent {
   }
 
   public handleCustomersUpdate(customers: Customer[]): void {
-    this._customerService.save(customers)
+    this._customerService.save(customers);
   }
 }

@@ -4,9 +4,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@models/*": ["./src/app/models/*"],
-      "@components/*": ["./src/app/components/*"],
-      "@services/*": ["./src/app/services/*"]
+      "components/*": ["./src/app/components/*"],
+      "enums/*": ["./src/app/models/enums/*"],
+      "interfaces/*": ["./src/app/models/interfaces/*"],
+      "models/*": ["./src/app/models/*"],
+      "pages/*": ["./src/app/pages/*"],
+      "services/*": ["./src/app/models/services/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
@@ -21,7 +24,6 @@
     "module": "preserve"
   },
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true

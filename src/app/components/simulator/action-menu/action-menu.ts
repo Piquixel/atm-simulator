@@ -10,25 +10,25 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card';
-import { Card } from '@models/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Customer } from '@models/customer';
-import { BankType } from '@models/enums/bank-type.enum';
-import { CardType } from '@models/enums/card-type.enum';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BankType } from 'enums/bank-type.enum';
+import { CardType } from 'enums/card-type.enum';
+import { Card } from 'models/card';
+import { Customer } from 'models/customer';
 
 // Local Validator, check if control value is multiple of num
 export function isMultiple(num: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = Number(control.value);
-    return value % num === 0 ? null : { isMultiple: { value: control.value } };
+    return value % num === 0 ? null : {isMultiple: {value: control.value}};
   };
 }
 
@@ -46,8 +46,8 @@ export function isMultiple(num: number): ValidatorFn {
     MatGridListModule,
     MatDividerModule,
     MatTabsModule,
-    MatCardModule
-],
+    MatCardModule,
+  ],
   templateUrl: './action-menu.html',
   styleUrl: './action-menu.scss',
 })
@@ -67,7 +67,7 @@ export class AtmActionMenu {
   public readonly customersList = input.required<Customer[]>();
 
   // Outputs
-  public customersUpdate = output<Customer[]>()
+  public customersUpdate = output<Customer[]>();
   public leftMenu = output<void>();
 
   // Properties
@@ -75,13 +75,13 @@ export class AtmActionMenu {
   private _withdrawalMaxValidationRef?: ValidatorFn;
 
   // FormControls
-  public readonly withdrawal = new FormControl<number|null>(null, [
+  public readonly withdrawal = new FormControl<number | null>(null, [
     Validators.required,
     Validators.min(5),
     isMultiple(5),
   ]);
 
-  public readonly deposit = new FormControl<number|null>(null, [
+  public readonly deposit = new FormControl<number | null>(null, [
     Validators.required,
     Validators.min(5),
     isMultiple(5),
@@ -90,48 +90,50 @@ export class AtmActionMenu {
   // Methods
   private showSnack(message: string, duration = 2500): void {
     this._snackBar.open(message, '', {
-      duration
-    })
+      duration,
+    });
   }
   private saveData(): void {
-    const cardIndex = this.currentCustomer().cards.findIndex(card => card.cardNumber === this.currentCard().cardNumber)
+    const cardIndex = this.currentCustomer().cards.findIndex(
+      card => card.cardNumber === this.currentCard().cardNumber,
+    );
 
-    const targetIndex = this.customersList().indexOf(this.currentCustomer())
+    const targetIndex = this.customersList().indexOf(this.currentCustomer());
 
-    this.currentCustomer().cards[cardIndex] = this.currentCard()
+    this.currentCustomer().cards[cardIndex] = this.currentCard();
 
-    this.customersList()[targetIndex] = this.currentCustomer()
+    this.customersList()[targetIndex] = this.currentCustomer();
 
-    this.customersUpdate.emit(this.customersList())
+    this.customersUpdate.emit(this.customersList());
   }
 
   public resetField(field: FormControl): void {
-    field.reset()
+    field.reset();
   }
 
   public handleDeposit(): void {
     this.currentCard().deposit(this.deposit.value!);
-    this.resetField(this.deposit)
+    this.resetField(this.deposit);
 
-    this.saveData()
+    this.saveData();
 
-    this.showSnack('Le dépôt a bien été validé!')
+    this.showSnack('Le dépôt a bien été validé!');
     this.updateValidatorMaximum();
   }
 
   public handleWithdrawl(): void {
     this.currentCard().withdrawal(this.withdrawal.value!);
-    this.resetField(this.withdrawal)
+    this.resetField(this.withdrawal);
 
-    this.saveData()
+    this.saveData();
 
-    this.showSnack('Le retrait a bien été validé!')
+    this.showSnack('Le retrait a bien été validé!');
     this.updateValidatorMaximum();
   }
 
   public applyPreset(amount: number): void {
-    this.withdrawal.setValue(amount)
-    this.deposit.setValue(amount)
+    this.withdrawal.setValue(amount);
+    this.deposit.setValue(amount);
   }
 
   private updateValidatorMaximum(): void {
@@ -150,17 +152,17 @@ export class AtmActionMenu {
   }
 
   public getLogo(type: BankType | CardType): string {
-    if (type === CardType.OTHER) return ''
-    return `/logos/${type.toLowerCase()}.png`
+    if (type === CardType.OTHER) return '';
+    return `/logos/${type.toLowerCase()}.png`;
   }
 
   public obfuscateCardNbr(nbr: string): string {
-    const cardNbrParts = nbr.split('-')
+    const cardNbrParts = nbr.split('-');
 
     for (let i = 0; i < cardNbrParts.length - 1; i++) {
-      cardNbrParts[i] = '*'.repeat(4)
+      cardNbrParts[i] = '*'.repeat(4);
     }
 
-    return cardNbrParts.join('-')
+    return cardNbrParts.join('-');
   }
 }

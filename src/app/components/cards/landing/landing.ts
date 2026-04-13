@@ -1,12 +1,16 @@
 // Imports
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { Customer } from '@models/customer';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -17,21 +21,17 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { Card } from '@models/card.js';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BankType } from '@models/enums/bank-type.enum';
-import { CardType } from '@models/enums/card-type.enum';
+import { MatListModule } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
+import { BankType } from 'enums/bank-type.enum';
+import { CardType } from 'enums/card-type.enum';
+import { Card } from 'models/card';
+import { Customer } from 'models/customer';
 
 // Dialogs Interfaces
 export interface CustomerDialogData {
@@ -46,9 +46,13 @@ export interface CardDialogData {
 export function isCurrentPIN(validator: (pin: string) => boolean, invert?: boolean): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value: string = control.value;
-    return invert ?
-    !validator(value) ? null : { isCurrentPIN: { value: control.value } }
-    :validator(value) ? null : { isCurrentPIN: { value: control.value } };
+    return invert
+      ? !validator(value)
+        ? null
+        : {isCurrentPIN: {value: control.value}}
+      : validator(value)
+        ? null
+        : {isCurrentPIN: {value: control.value}};
   };
 }
 
@@ -221,7 +225,11 @@ export class ChangePinDialog {
       Validators.pattern(/[0-9]{4}/),
       isCurrentPIN(this.data.card.checkPin),
     ]),
-    newPin: new FormControl('', [Validators.required, Validators.pattern(/[0-9]{4}/), isCurrentPIN(this.data.card.checkPin, true)]),
+    newPin: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/[0-9]{4}/),
+      isCurrentPIN(this.data.card.checkPin, true),
+    ]),
   });
 
   // Mathods

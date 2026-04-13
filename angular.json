@@ -26,12 +26,12 @@
         },
         "@schematics/angular:service": {
           "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
         }
       },
       "root": "",
-      "i18n": {
-        "sourceLocale": "fr-BE"
-      },
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {

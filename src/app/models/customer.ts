@@ -1,5 +1,5 @@
+import { Gender } from 'enums/gender.enum';
 import { Card } from './card';
-import { Gender } from './enums/gender.enum';
 
 export class Customer {
   constructor(
@@ -17,7 +17,7 @@ export class Customer {
   }
 
   public get uuid(): string {
-    return this._uuid
+    return this._uuid;
   }
 
   public get cards(): Card[] {
@@ -25,26 +25,26 @@ export class Customer {
   }
 
   public set cards(cards: Card[]) {
-    this._cards = cards
+    this._cards = cards;
   }
 
   public getCardsNumber(): number {
-    return this._cards.length
+    return this._cards.length;
   }
 
   public addCard(card: Card) {
-    this._cards.push(card)
+    this._cards.push(card);
   }
 
   public removeCard(card: Card): void {
-    this.cards = this.cards.filter(c => c !== card)
+    this.cards = this.cards.filter(c => c !== card);
   }
 
   public getIndex(list: Customer[]): number {
-    return list.indexOf(this)
+    return list.indexOf(this);
   }
 
   public findCard(cardNumber: string): Card | undefined {
-    return this._cards.find(card => card.cardNumber === cardNumber)
+    return this._cards.find(card => card.cardNumber === cardNumber);
   }
 }

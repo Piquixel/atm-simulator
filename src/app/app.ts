@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Toolbar } from './components/toolbar/toolbar';
 import { RouterOutlet } from '@angular/router';
+import { Toolbar } from 'components/toolbar/toolbar';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss',
 })
 export class App {
-  public readonly appName: string = "Simulateur ATM"
+  protected readonly title: string = "Simulateur ATM"
 }

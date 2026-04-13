@@ -1,6 +1,6 @@
+import { BankType } from 'enums/bank-type.enum';
+import { CardType } from 'enums/card-type.enum';
 import { Customer } from './customer.js';
-import { BankType } from './enums/bank-type.enum';
-import { CardType } from './enums/card-type.enum';
 
 export class Card {
   constructor(
@@ -28,9 +28,8 @@ export class Card {
   }
 
   public set pin(pin: string) {
-    if (/[0-9]{4}/.test(pin))
-      this._pin = pin
-    else throw new Error('Le format de PIN entré est incorrect!')
+    if (/[0-9]{4}/.test(pin)) this._pin = pin;
+    else throw new Error('Le format de PIN entré est incorrect!');
   }
 
   public checkPin = (pin: string): boolean => this._pin === pin;
@@ -52,11 +51,11 @@ export class Card {
   }
 
   public getIndexes(customerList: Customer[]): number[] {
-    const ownerIndex: number = customerList.findIndex(customer => customer.cards.find(card => card === this))
-    const cardList = customerList[ownerIndex].cards
+    const ownerIndex: number = customerList.findIndex(customer =>
+      customer.cards.find(card => card === this),
+    );
+    const cardList = customerList[ownerIndex].cards;
 
-    return [
-      ownerIndex, cardList.indexOf(this)
-      ]
+    return [ownerIndex, cardList.indexOf(this)];
   }
 }

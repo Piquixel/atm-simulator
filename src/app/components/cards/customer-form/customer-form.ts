@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Gender } from '@models/enums/gender.enum';
-import { Customer } from '@models/customer';
+import { Gender } from 'enums/gender.enum';
+import { Customer } from 'models/customer';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -63,10 +63,7 @@ export class CustomerForm {
     gender: new FormControl(Gender.FEMALE, [Validators.required]),
     address: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    postalCode: new FormControl(null, [
-      Validators.min(1000),
-      Validators.max(9992),
-    ]),
+    postalCode: new FormControl(null, [Validators.min(1000), Validators.max(9992)]),
   });
 
   // Methods
@@ -88,7 +85,7 @@ export class CustomerForm {
 
   public leaveForm(): void {
     this.cancelCustomer.emit();
-  };
+  }
 
   private formatName(name: string, field: FormControl<string | null>): void {
     if (name === '') return;
@@ -102,6 +99,6 @@ export class CustomerForm {
       .map(n => applyCase(n))
       .join('-');
 
-    field.setValue(formatedName.trim(), { emitEvent: false });
+    field.setValue(formatedName.trim(), {emitEvent: false});
   }
 }

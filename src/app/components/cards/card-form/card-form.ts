@@ -2,97 +2,105 @@
 import { Component, input, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput } from "@angular/material/input";
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from "@angular/material/button";
-import { MatDividerModule } from "@angular/material/divider";
-import { CardType } from '@models/enums/card-type.enum';
-import { IOptionsModel } from '@models/index';
-import { BankType } from '@models/enums/bank-type.enum';
-import { Customer } from '@models/customer';
-import { Card } from '@models/card';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { BankType } from 'enums/bank-type.enum';
+import { CardType } from 'enums/card-type.enum';
+import { IOptionsModel } from 'interfaces/options.interface';
+import { Card } from 'models/card';
+import { Customer } from 'models/customer';
 
 // Main Component
 @Component({
   selector: 'app-card-form',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInput, MatSelectModule, MatButtonModule, MatDividerModule, MatCardModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInput,
+    MatSelectModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatCardModule,
+  ],
   templateUrl: './card-form.html',
-  styleUrl: './card-form.scss'
+  styleUrl: './card-form.scss',
 })
 export class CardForm {
   constructor() {
     // Format card number on type
     this.cardForm.controls.cardNumber.valueChanges
       .pipe(takeUntilDestroyed())
-      .subscribe(value => this.formatCardNumber(value || ''))
+      .subscribe(value => this.formatCardNumber(value || ''));
   }
 
   // Inputs
-  public readonly currentCustomer = input.required<Customer>()
-  public readonly customersList = input.required<Customer[]>()
+  public readonly currentCustomer = input.required<Customer>();
+  public readonly customersList = input.required<Customer[]>();
 
   // Outputs
-  public submitCard = output<Customer[]>()
-  public cancelCard = output()
+  public submitCard = output<Customer[]>();
+  public cancelCard = output();
 
   // Select Models
-    // Card Types
+  // Card Types
   public readonly cardTypes: IOptionsModel[] = [
     {
       label: 'Mastercard',
-      value: CardType.MASTERCARD
+      value: CardType.MASTERCARD,
     },
     {
       label: 'Maestro',
-      value: CardType.MAESTRO
+      value: CardType.MAESTRO,
     },
     {
       label: 'Cirrus',
-      value: CardType.CIRRUS
+      value: CardType.CIRRUS,
     },
     {
       label: 'Visa',
-      value: CardType.VISA
+      value: CardType.VISA,
     },
     {
       label: 'Autre',
-      value: CardType.OTHER
-    }
-  ]
+      value: CardType.OTHER,
+    },
+  ];
 
-    // Bank Types
+  // Bank Types
   public readonly bankTypes: IOptionsModel[] = [
     {
       label: 'Belfius',
-      value: BankType.BELFIUS
+      value: BankType.BELFIUS,
     },
     {
       label: 'ING',
-      value: BankType.ING
+      value: BankType.ING,
     },
     {
       label: 'Revolut',
-      value: BankType.REVOLUT
+      value: BankType.REVOLUT,
     },
     {
       label: 'Beobank',
-      value: BankType.BEOBANK
+      value: BankType.BEOBANK,
     },
     {
       label: 'BNP Paribas Fortis',
-      value: BankType.BNP
-    }
-  ]
+      value: BankType.BNP,
+    },
+  ];
 
   // FormControls
   public cardForm = new FormGroup({
     cardNumber: new FormControl('', [Validators.required, Validators.minLength(19)]),
     cardType: new FormControl(null, [Validators.required]),
     bankType: new FormControl(null, [Validators.required]),
-    cardPin: new FormControl('', [Validators.required, Validators.pattern(/[0-9]{4}/g)])
-  })
+    cardPin: new FormControl('', [Validators.required, Validators.pattern(/[0-9]{4}/g)]),
+  });
 
   // Methods
   public leaveForm(): void {
@@ -105,35 +113,35 @@ export class CardForm {
       this.cardForm.value.bankType!,
       this.cardForm.value.cardPin!,
       0,
-    )
+    );
 
-    this.currentCustomer().addCard(newCard)
-    const currentUserIndex: number = this.currentCustomer().getIndex(this.customersList())
-    this.customersList()[currentUserIndex] = this.currentCustomer()
+    this.currentCustomer().addCard(newCard);
+    const currentUserIndex: number = this.currentCustomer().getIndex(this.customersList());
+    this.customersList()[currentUserIndex] = this.currentCustomer();
 
-    this.submitCard.emit(this.customersList())
+    this.submitCard.emit(this.customersList());
   }
 
   private formatCardNumber(nb: string): void {
     // removes any non-digit characters from the initial value
-    let result: string = nb.replace(/\D/g, '')
+    let result: string = nb.replace(/\D/g, '');
 
     if (result.length > 0) {
       // sparate string into arrays of 4 digits
-      const parts = result.match(/.{1,4}/g)
+      const parts = result.match(/.{1,4}/g);
       // if parts isn't null, affect the joined array to the result
-      result = parts ? parts.join('-') : ''
+      result = parts ? parts.join('-') : '';
     }
-    this.cardForm.controls.cardNumber.setValue(result, {emitEvent: false})
+    this.cardForm.controls.cardNumber.setValue(result, {emitEvent: false});
   }
 
   public getLogo(type: BankType | CardType | null): string {
-    if (type === CardType.OTHER || type === null) return ''
-    return `/logos/${type.toLowerCase()}.png`
+    if (type === CardType.OTHER || type === null) return '';
+    return `/logos/${type.toLowerCase()}.png`;
   }
 
   public obfuscateCardNbr(cardNbr: string | null): string {
-    if (cardNbr === null) return ''
+    if (cardNbr === null) return '';
     const nbrParts = cardNbr.split('-');
 
     for (let i = 0; i < nbrParts.length - 1; i++) {
